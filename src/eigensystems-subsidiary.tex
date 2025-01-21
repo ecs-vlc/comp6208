@@ -1,0 +1,174 @@
+% Created 2024-02-26 Mon 17:15
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 10: Eigensystems}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+
+\section{Keywords}
+\label{sec:org5f0966a}
+\begin{itemize}
+\item Eigenvectors, Orthogonal Matrices, Eigenvector Decomposition
+\end{itemize}
+
+\section{Main Points}
+\label{sec:org6f11307}
+
+\subsection{Eigen-Systems}
+\label{sec:org0f170ab}
+\begin{itemize}
+\item We can understand ill-conditioning for linear regression by the
+eigen-decomposition of \(\mat{M}=\mat{X}^\tr \mat{X}\)
+\item This should be revision
+\item You know that an \emph{eigenvector}, \(\bm{v}\), satisfies \(\mat{M}\,\bm{v}=\lambda\,\bm{v}\)
+\item For a symmetric matrix there are \(n\) real orthogonal eigenvectors
+\item You can prove they are orthogonal
+\item \textbf{Orthogonal Matrices}
+\begin{itemize}
+\item Putting the \(n\) eigenvectors into a matrix \(\mat{V}\) with
+
+columns \(\bm{v}_i\) we obtain an orthogonal matrix
+\item The defining property of an orthogonal matrix is
+\(\mat{V}^\tr\mat{V} = \mat{V}\mat{V}^\tr=\mat{I}\)
+\item They correspond to rotations (with a possible reflection)
+\end{itemize}
+\item \textbf{Matrix Decomposition}
+\begin{itemize}
+\item We can decompose a symmetric matrix, \(\mat{M}\) as
+\begin{align*}
+  \mat{M} = \mat{V}\,\mat{\Lambda}\,\mat{V}^\tr
+\end{align*}
+\item Where \(\mat{\Lambda}\) is a diagonal matrix of eigenvalues of \(\mat{M}\) 
+(i.e. \(\Lambda_{ii}=\lambda_i\))
+\item \(\mat{V}\) is the orthogonal matrix made up of the eigenvectors of \(\mat{M}\)
+\item We can interpret the mapping of a symmetric matrix \(\mat{M}\) as
+equivalent to
+\begin{enumerate}
+\item a rotation defined by \(\mat{V}^\tr\)
+\item scaling of the \(i^{th}\) component by \(\lambda_i\) and
+\item a rotation backwards given by \(\mat{V}\)
+\end{enumerate}
+\item Equivalently if we work in a coordinate system defined by the
+eigenvectors of \(\mat{V}\) (this forms an orthonormal basis set)
+then we just rescale in the directions \(\bm{v}_i\) by \(\lambda_i\)
+\begin{itemize}
+\item A symmetric matrix just squashes or expands in different
+orthogonal directions (this is what  the eigensystem captures)
+\end{itemize}
+\end{itemize}
+
+\item \textbf{Inverse Matrices}
+\begin{itemize}
+\item The inverse of a symmetric matrix \(\mat{M}\) is given by
+\begin{align*}
+  \mat{M} = \mat{V}\,\mat{\Lambda}^{-1}\,\mat{V}^\tr
+\end{align*}
+\item Where \(\mat{\Lambda}^{-1}\) is a diagonal matrix with elements \(\Lambda_{ii}^{-1}=1/\lambda_i\)
+\item This is only defined if \(\mat{M}\) if all the eigenvalues of
+\(\mat{M}\) are non-zero  (\(\mat{M}\) is said to be full rank)
+\item If \(\lambda_i\) is very small then \(1/\lambda_i\) is large and in
+taking the inverse \(\mat{M}^{-1}\bm{x}\) any component of \(\bm{x}\)
+in the direction \(\bm{v}_i\) will get magnified by \(1/\lambda_i\)
+\item For linear regression we invert \(\mat{M} = \mat{X}^\tr\mat{X}\)
+\begin{itemize}
+\item in directions where the training examples don't vary much the
+associated eigenvalue will be small and the inverse inherently
+unstable
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
+\section{Exercises}
+\label{sec:orgda485f0}
+
+\subsection{Linear Regression}
+\label{sec:org183958f}
+\begin{itemize}
+\item Derive the formula for the weight vector in linear regression
+\end{itemize}
+
+\section{Experiments}
+\label{sec:orgd980004}
+
+\subsection{Eigensystems}
+\label{sec:org1cf8d23}
+\begin{itemize}
+\item In either Matlab/Octave or python generate random matrices and check
+the matrix identities
+\end{itemize}
+
+\begin{minted}[]{matlab}
+X = randn(5,4)  % generate a mock designer matrix with 5 inputs of length 4 
+M = X'*X        % compute a symmetrix matrix
+[V.L] = eig(M)  % compute eigenvalues
+V*L*V'          % should be identical to M
+V*V'            % should be the identity matrix (up to rounding precision)
+V'*V            % should be the identity matrix (up to rounding precision)
+x = randn(4,1)  % generate a random column matrix of length 4
+y = randn(4,1)  % generate another random column matrix of length 4
+xp = V*x        % apply V to x
+yp = V*y        % apply V to y
+norm(x)         % compute Euclidean norm of x
+norm(xp)        % should be the same as Euclidean nor of xp
+x'*y            % compute inner product of x and y
+xp'*yp'         % compute inner produce of xp and yp (should be the same as above)
+
+Z = rand(4,5)   % consider a designer matrix where we would have more unknowns the examples
+W = Z'*Z        % compute a covariance type matrix (except we don't subtract the mean
+eig(W)          % compute eigenvalues (one should be 0 up to machine precision)
+\end{minted}
+\end{document}

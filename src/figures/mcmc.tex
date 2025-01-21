@@ -1,0 +1,598 @@
+%Master File:lectures.tex
+
+
+\lesson{MCMC}
+\vspace{-1cm}
+\begin{center}
+  \includegraphics[height=10cm]{trafficMCMC-9}
+\end{center}
+\keywords{Monte Carlo methods, MCMC, Variational Methods}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\Outline}{%
+\begin{slide}
+\section[1]{Outline}
+
+\begin{minipage}{10cm}\raggedright
+  \begin{enumerate}\squeeze
+    \outlineitem{Sampling}{sampling}
+    \outlineitem{MCMC}{mcmc}
+    \outlineitem{Variational Methods}{variational}
+  \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}{12cm}
+  \includegraphics[width=12cm]{mcmc5}
+\end{minipage}
+\end{slide}
+\addtocounter{outlineitem}{1}
+}
+
+\setcounter{outlineitem}{1}
+\Outline % Motivation
+\toptarget{firstoutline}
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Bayesian Inference Gets Hard}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We saw that in some cases if we had a simple likelihood (normal,
+    binomial, Poisson, multinomial) you can choose a conjugate prior
+    (gamma-normal/Wishart, beta, gamma, Dirchlet) so that the posterior
+    has the same form as the prior\pause
+  \item Very often we are working with more complex models where no
+    conjugate prior exists\pause
+  \item The posterior is not described by a known distribution\pause
+  \item We have to work a lot harder---particularly with multivariate
+    distributions\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Bayesian Inference}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Recall our problem is that we are given some data
+    $\data$\pause
+  \item Our posterior is given by
+    \begin{align*}
+      \Prob{\bm{\theta}|\data} &= \frac{\Prob{\data|\bm{\theta}} \,
+                                 \Prob{\bm{\theta}}}{ \Prob{\data} } &
+      &\text{or}&
+      f\brackets{\bm{\theta}|\data} &= \frac{f\brackets{\data|\bm{\theta}} \,
+                                 f\brackets{\bm{\theta}}}{ f\brackets{\data} }
+    \end{align*}
+  \item Where $\bm{\theta}$ are the parameters we are trying to infer\pause
+  \item But our likelihood (and/or prior) might be quite
+    complicated\pause
+  \item Typically we don't have a closed form representation for our
+    posterior distibution\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Histograms, Samples and Means}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We could represent our posterior as a histogram, although for
+    multivariate distributions (i.e. when we are modelling more than one
+    variable) a histogram can be unwieldy\pause
+  \item A sample from the posterior distribution is often sufficient
+    e.g. in our topic models (LDA) a typical set of topics is what we
+    are after\pause
+  \item However, when samples vary a lot, often the most useful quantities
+    are expectation, e.g.
+    \begin{align*}
+      &\av{\bm{\Theta}} & &\av{\Theta_i^2}-\av{\Theta_i}^2 \\
+      &\av{\Theta_i\,\Theta_j} - \av{\Theta_i}\,\av{\Theta_j}
+      && \av{\bm{\Theta}\,\bm{\Theta}^\tr} -\av{\bm{\Theta}}\,\av{\bm{\Theta}}^\tr\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Sample Estimation}
+
+\pb\pause\pauselevel{=1}
+\begin{itemize}
+\item If we can draw independent \emph{deviates} (aka
+  \emph{variates}), $\bm{\Theta}_i$, from our posterior distribution then we can
+  obtain an estimate of our expectation
+  \begin{align*}
+    \av{g(\bm{\Theta})} \approx \frac{1}{n} \sum_{i=1}^n g(\bm{\Theta}_i)\pauseh
+  \end{align*}
+\item Provided our posterior distribution is well behaved the
+  relative error in our estimate will drop off as $1/\sqrt{n}$\pauseh
+  \begin{center}
+    \multipdf[width=\linewidth]{wellBehaved}\pause   
+  \end{center}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Drawing Random Samples}
+
+\pb
+\begin{itemize}
+\item Drawing (pseudo) random variables from a distribution is known
+  as \emph{Monte Carlo}\pauseh
+\item For some very simple distributions we can use the transformation
+  methods to transform a uniform distribution\pauseh
+\end{itemize}
+\begin{center}
+  \multipdf[width=\linewidth]{exponentialDeviates}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Rejection Method}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The transformation method only works when we can easily compute
+    the inverse \textit{cumulative distribution function} (CDF)\pause
+  \item A more general technique is the rejection method where we
+    generate deviates from $g_Y(y)$ such that $c\,g_Y(x)\geq f_X(x)$\pause
+  \item To draw deviates from $f_X(x)$ we draw a deviate $Y\sim g_Y$ and
+    then accept the deviate with probability $f_X(Y)/(c\,g_Y(Y))$\pause
+  \item The expected rejection rate is $c-1$\pause
+  \item Need to choose a good distribution $g_Y(y)$\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Drawing Normal Deviates}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{rejectionSampling}\pause
+\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Problems with Rejection}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The rejection method is very general and often the method of
+    choice (although for normal deviates there is a clever
+    transformation method which is faster)\pause
+  \item However, for complicated probability distributions it can be
+    difficult to find a good proposal distribution $g_Y(y)$\pause
+  \item This is particular true for multivariate distributions\pause
+  \item If the proposal distribution is poor $c$ might be very high and
+    the number of rejections is stupidly high\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % MCMC
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Detailed Balance}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Suppose we have a set of states $\mathcal{S}$ and want to draw
+    sample from a probability distribution $\bm{\pi} = (\pi_i | i \in
+    \mathcal{S})$\pause
+  \item If we choose a transition probability $M_{ij}$ from state $j$ to
+    state $i$ such that
+    \begin{align*}
+      M_{ij} \, \pi_j = M_{ji} \pi_i
+    \end{align*}
+  \item Then (with mild conditions on $M_{ij}$) if we start from any
+    state, eventually, the probability of being in state $i$ is
+    $\pi_i$\pause
+  \item This condition is known as \emph{detailed balance}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Metropolis Algorithm}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A very easy way to achieve detailed balance is starting from
+    state $j$ choose a ``neighbouring'' state, $i$ with equal
+    probability\pause
+  \item We accept the move if either
+    \begin{itemize}
+    \item $\pi_i>\pi_j$ or
+    \item we make the move with a probability $\pi_i/\pi_j$\pause
+    \end{itemize}
+  \item Note that we require the state $i$ to have the same number of
+    neighbours as state $j$ so that detailed balance is satisfied\pause
+  \item This is the basis of \emph{Markov Chain Monte Carlo}\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Continuous Variables}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we are working with continuous variables $\bm{\theta}$ then
+    the equation for detailed balance for the transition probability
+    $W(\bm{\theta}\rightarrow \bm{\theta}')$ is
+    \begin{align*}
+      W(\bm{\theta}\rightarrow \bm{\theta}')\, \pi(\bm{\theta}) =
+      W(\bm{\theta}'\rightarrow \bm{\theta})\, \pi(\bm{\theta}') \pause
+    \end{align*}
+  \item where $\pi(\bm{\theta})$ is the probability distribution we wish
+    to sample from\pause
+  \item The update rule is to choose a nearby value $\bm{\theta}'$,
+    compute $r = \pi(\bm{\theta}')/\pi(\bm{\theta})$ and accept the
+    update with probability $\min(1,r)$\pause
+  \item We require that the probability of choosing $\bm{\theta}$ from
+    $\bm{\theta}'$ is the same as the reverse\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{What Makes MCMC Nice}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Because we are free to choose where we move (and choose close
+    by neighbours) $\pi(\bm{\theta}') \approx \pi(\bm{\theta})$ so that moves are not too
+    infrequent\pause
+  \item Also very importantly the updates depend only on the ratio
+    $\pi(\bm{\theta}')/\pi(\bm{\theta})$\pause
+  \item We only need to know our probabilities up to a multiplicative
+    scaling factor\pause
+  \item For sampling from the posterior we only need to know the
+    likelihood and prior $\Prob{\data| \bm{\theta}}\,\Prob{\bm{\theta}}$\pause{}
+    (or $f(\data| \bm{\theta})\,f(\bm{\theta})$)\pauseb
+  \item We don't need to know $\Prob{\data}$ which we generally don't
+    know\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{What Makes MCMC Nasty}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item It can take a long time until our states occur with the
+    probability $\bm{\pi}$ (i.e. we have forgotten our initial
+    state)\pause
+  \item We don't even know how long we have to wait\pause
+  \item Even when we have reached this \textit{equilibration time} each
+    sample is correlated with the previous sample\pause
+  \item To get a good approximation to the posterior expectation
+    requires running for many times the equilibration time\pause
+  \item Note, if we are just finding sample averages then we can use all
+    samples after equilibrating even if they are not independent\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Burn-In}
+\pb
+\pause
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=0.9\linewidth]{burnIn}\pause
+\end{center}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Proposals and Metropolis-Hastings}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item We have some freedom in choosing a new proposal $\bm{\theta}'$
+    from our current position $\bm{\theta}$---a good choice can increase
+    the acceptance rate making the MCMC more efficient\pause
+  \item We define the proposal distribution
+    $p(\bm{\theta}'|\bm{\theta})$\pause
+  \item For the standard Metropolis algorithm to work we require
+    $p(\bm{\theta}'|\bm{\theta}) = p(\bm{\theta}|\bm{\theta}')$\pause
+  \item In some cases (e.g when $\theta_i\geq 0$) this can be hard to
+    achieve\pause
+  \item We can modify our update rule to accept a move with probability
+    \begin{align*}
+      \min\left(1, \frac{p(\bm{\theta}|\bm{\theta}')\,f(\data|
+      \bm{\theta}')\,f(\bm{\theta}')}{p(\bm{\theta}'|\bm{\theta})\,f(\data|
+      \bm{\theta})\,f(\bm{\theta})}\right)\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Traffic Rate}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Consider monitoring the flow of traffic where we have data
+    \begin{align*}
+      \data = (N_1,\,N_2,\,\ldots,\, N_n)
+    \end{align*}
+    where $N_i$ is the number of car that past on day $i$\pause
+  \item We assume $N_i\sim\mathrm{Poi}(\mu)$ and want to infer
+    $\mu$\pause
+  \item The Poisson distribution has a beta conjugate prior\pause
+  \item We don't have any prior knowledge on $\mu$ so we use a
+    non-informative prior $\mathrm{Gam}(\mu|0,0)=1/\mu$\pause
+  \item Note that we can solve this problem exactly---however, lets
+    compare with MCMC\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Proposal Distribution}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item If we can choose our proposal distribution $p(\mu'|\mu)$ to be
+    close to the posterior distribution then our acceptance rate would
+    be close to 1\pause
+  \item We choose $p(\mu'|\mu) = \mathrm{Gam}(\mu'|\mu,\mu^2)$ which has
+    $\av{\mu'}=\mu$ and variance 1\pause
+  \item We update with probability $\min(1,r)$ where
+  \begin{align*}
+    r &= \frac{\mathrm{Gam}(\mu|\mu^{\prime2},\mu')
+        \tfrac{1}{\mu'} \prod_{i=1}^n \mathrm{Poi}(N_i|\mu')}
+        {\mathrm{Gam}(\mu'|\mu^2,\mu) \tfrac{1}{\mu}
+        \prod_{i=1}^n \mathrm{Poi}(N_i|\mu)}\pause
+    \\
+      &= \frac{\mu\,\mathrm{Gam}(\mu|\mu^{\prime2},\mu')}
+        {\mu'\,\mathrm{Gam}(\mu'|\mu^2,\mu)}
+        \e{- n (\mu'-\mu) + \sum\limits_{i=1}^n N_i \logg{
+        \frac{\mu'}{\mu}}}\pause
+  \end{align*}
+\end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{MCMC in Practice}
+
+\pause
+\pb
+\pauselevel{=1}
+\begin{center}
+  \multipdf[width=\linewidth]{trafficMCMC}\pause
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{MCMC Details}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item To compute correct histograms you need to count samples where no
+    move is made multiple times\pause
+  \item On modern computers its quite quick to compute millions of
+    samples\pause
+  \item The code is not very difficult to write (although care is need
+    to get everything correct)\pause
+  \item This can be used on complicated problems such as topic models
+    (LDA) with thousands of parameters\pause
+  \item The accuracy of MCMC is slow if it takes a long time to sample
+    the posterior distribution\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{slide}
+\section{The MCMC Industry}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item MCMC provides a means to accurately sample from very complex
+    models\pause
+  \item There have been many advanced techniques developed to improve
+    MCMC performance\pause
+  \item E.g. hybrid MCMC simulates a dynamics to find good proposals
+    with similar probability far from the starting point\pause
+  \item Often it seems that MCMC is complicated because there are so
+    many optimisations, but often simple implementations are
+    sufficient\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+\Outline % Variational Methods
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{MAP Solutions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The simplest alternative to MCMC is to find a set of parameters
+    $\bm{\theta}$ that maximise $f(\data|\bm{\theta})\,
+    f(\bm{\theta})$\pause
+  \item This is the Maximum Aposteriori (MAP) approximation\pause
+  \item It can give good results if the posterior is unimodal and fairly
+    well concentrated\pause
+  \item However, you are throwing away most of the probabilistic
+    information\pause
+  \item In full Bayes (using MCMC) you can, for example, measure your
+    uncertainty which MAP doesn't let you do\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-2]{Variational Methods}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item A second method is to approximate the posterior distribution by
+    a simpler (typically factored distribution)
+    \begin{align*}
+      f(\bm{\theta}|\data) \approx g(\bm{\theta}|\bm{\phi}) = \prod_i
+      g(\theta_i|\phi_i)\pause
+    \end{align*}
+  \item We then choose $\bm{\phi}$ to minimise the ``distance'' between
+    our distribution and the true posterior
+    \begin{align*}
+      \mathrm{KL}\brackets{ g(\bm{\theta}|\bm{\phi}) \big\|
+      f(\bm{\theta}|\data) }\pause
+    \end{align*}
+  \item Where $\mathrm{KL}(g \| f)$ is the \textit{Kullback-Leibler (KL)
+      divergence}
+    \begin{align*}
+      \mathrm{KL}(g \| f) = \int g(\bm{\theta}|\bm{\phi}) \, 
+      \logg{ \frac{f(\bm{\theta}|\data)}{g(\bm{\theta}|\bm{\phi})} } \,
+      \dd \bm{\theta}\pause
+    \end{align*}
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{KL-divergence}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item The KL-divergence satisfies
+    \begin{itemize}
+    \item $\mathrm{KL}(g \| f) \geq 0$
+    \item $\mathrm{KL}(f \| f) = 0$\pause
+    \end{itemize}
+  \item It acts as a measure of the difference between probability
+    distributions although $\mathrm{KL}(g \| f) \neq \mathrm{KL}(f \|
+    g)$\pause
+  \item We therefore choose $g(\bm{\theta}|\bm{\phi})$ to minimise
+    $\mathrm{KL}(g \| f)$\pause
+  \item This is a bit technical (I skip all details), but often results
+    in quite neat algorithms that are far faster than MCMC although
+    approximate\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Variational versus MCMC}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Variational approximations have an elegance\pause
+  \item They can produce good answers (although not always)\pause
+  \item They can be extended (e.g. by minimising $\mathrm{KL}(f \| g)$
+    rather than $\mathrm{KL}(g \| f)$---this is known as\textit{ belief
+      propagation})\pause
+  \item MCMC is less elegant, but is a controlled approximation (we get
+    better results by increasing the number of iterations)\pause
+  \item MCMC is slower, but on modern computers this isn't usually a
+    problem\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section{Conclusions}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item As soon as we use complex models we are no longer able to
+    compute the posterior in closed form\pause
+  \item Monte Carlo techniques and particularly MCMC are a very general
+    method for computing samples from the posterior\pause
+  \item These techniques have been highly developed, but very frequently
+    even simple implementations are sufficient to do good
+    inference\pause
+  \item Variational methods provide an approximate closed form solution
+    to problems with complex likelihoods\pause
+  \item Variational methods are mathematically challenging, but are
+    potentially far faster to compute than MCMC\pause
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}

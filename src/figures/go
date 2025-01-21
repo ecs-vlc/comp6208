@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+import  re
+from ask import Ask
+import os
+
+def extract(str):
+    _, endpart = str.split("{")
+    mid, _ = endpart.split("}")
+    return mid
+
+with open("lectures.tex", "r") as f:
+    files = [extract(line) for line in f if re.search("^\\\lecture{", line)]
+
+for i, file in enumerate(files,1):
+    print(i, file)
+
+query = Ask()
+
+base = files[int(query("What file do you want to show",  "fn", 1, files))-1]
+pdf, tex  = f"pdf/{base}.pdf", f"{base}.tex"
+
+def newer(file1 , file2):
+    return os.path.getmtime(file1) > os.path.getmtime(file2)
+
+if newer(tex, pdf) or newer("macros_gen.tex", pdf):
+    if os.system(f"echo {base} | /usr/bin/pdflatex -shell-escape lectures")!=0:
+        print("Latex failed")
+        exit(1)
+    os.system(f"ppower4 lectures.pdf {pdf}")
+
+os.system(f"evince {pdf}")
+
+    

@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<TITLE>Videos
+</TITLE>
+</HEAD>
+
+<!--#include virtual="/notes/comp6208/header.htx" -->
+
+<H1 align="center">Video for Advance Machine Learning</H1>
+
+<h3><b>Singular Value Decomposition (SVD)</b>: Singular Valued Decomposition, SVD, general linear maps</h3>
+
+<div>
+ <video width="500" controls>
+       <source src="svd.mp4" type="video/mp4">
+       Your browser does not support HTML5 video.
+    </video>
+</div>
+
+<div>
+<ul>
+     <li> <a href="svd.pdf">Lecture PDF</a>, </li>
+     <li> <a href="svd_prn.pdf">Printable PDF</a>, </li>
+     <li> <a href="svd_prn_4.pdf">(4 per page)</a></li>
+     <li> <a href="svd_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+
+   <p>
+</div>
+<div>
+ <h4> <a
+ href=https://secure.ecs.soton.ac.uk/notes/comp6208/lectures/>Back to
+ Lecture Notes Page</a></h4>
+</div>
+<!--#include virtual="/notes/comp6208/footer.htx" -->
+
+</HTML>

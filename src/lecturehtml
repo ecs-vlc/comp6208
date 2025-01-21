@@ -1,0 +1,118 @@
+#! /bin/bash
+
+
+write_video () {
+    vf="videos/$1Video.shtml"
+    cat > $vf <<EOF
+<HTML>
+<HEAD>
+<TITLE>Videos
+</TITLE>
+</HEAD>
+
+<!--#include virtual="header.htx" -->
+
+<H1 align="center">Video for Advance Machine Learning</H1>
+
+<h3><b>$lesson</b>: $keywords</h3>
+
+<div>
+ <video width="500" controls>
+       <source src="$1.mp4" type="video/mp4">
+       Your browser does not support HTML5 video.
+    </video>
+</div>
+
+<div>
+<ul>
+     <li> <a href="../$1.pdf">Lecture PDF</a>, </li>
+     <li> <a href="../$1_prn.pdf">Printable PDF</a>, </li>
+     <li> <a href="../$1_prn_4.pdf">(4 per page)</a></li>
+     <li> <a href="../$1_prn_8.pdf">(8 per page)</a></li>
+     $2
+   </ul>
+   
+   <p>
+</div>
+<!--#include virtual="footer.htx" -->
+
+</HTML>
+EOF
+    echo "Updating $vf"
+    cp $vf /home/apb/teaching/courses/comp6208/github/site
+    tf="videos/${f}-time"
+    date > ${tf}
+}
+
+subsidiary() {
+    destination=/home/apb/teaching/courses/comp6208/github/site/notes_pdf/$1-subsidiary.pdf
+    if [ -f $1-subsidiary.pdf ]; then
+	if [ $1-subsidiary.pdf -nt $destination ]
+	then
+	    echo "Updating  $1-subsidiary.pdf"
+	    cp $1-subsidiary.pdf $destination
+	    date > pdf/$1-sub-time
+	fi
+    fi
+}
+
+	
+
+of=index.html
+files=`grep \\lecture{ lectures.tex | grep -v % | sed 's/\\\lecture{//g' | sed 's/}//g'`
+
+cat > $of <<EOF
+<HTML>
+<HEAD>
+<TITLE>Lecture Notes
+</TITLE>
+</HEAD>
+
+<H1 align="center">Lecture Notes</H1>
+
+<h2> Notes by Adam Pr&uuml;gel-Bennett </h2>
+
+
+<ol>
+EOF
+
+
+for f in $files; do
+    lesson=`head $f.tex | grep 'lesson{' | sed 's/.lesson{//' | sed 's/}//'`
+    keywords=`head -35 $f.tex | grep 'keywords{' | sed 's/.keywords{//' | sed 's/}//'`
+    if [ -f ${f}-subsidiary.pdf ] && [ ! -f pdf/${f}-sub-time ]
+    then
+	newSubsidiaryFile=1
+    else
+	newSubsidiaryFile=0
+    fi
+    subsidiary ${f}
+    if [ -f ${f}-subsidiary.pdf ]; then
+	sub="<li> <a href="/notes/comp6208/lectures/${f}-subsidiary.pdf">Subsidiary notes on lecture</a></li>"
+    else
+	subs=""
+    fi
+    echo "<li><b>$lesson</b>: $keywords" >> $of
+    echo "<ul> <li>"  >> $of
+    cat >> $of <<EOF
+     <a href="lecture_pdf/${f}.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/${f}_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/${f}_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/${f}_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+EOF
+    if [ -f ./${f}-subsidiary.pdf ]; then
+	echo ${f}-subsidiary.pdf
+ 	echo "<ul> notes_pdf/$sub  </ul>" >> ${of}
+    fi
+    if [ -f src/${f}.ipynb ]; then
+	echo "<ul> <li> <a href=\"notebook/$f.ipynb\">Juputer Notebook</a></ul>" >> ${of}
+    fi
+done
+
+cat >> $of <<EOF
+
+
+</HTML>
+EOF
+cp index.html /home/apb/teaching/courses/comp6208/github/site

@@ -1,0 +1,28 @@
+range = [-4:0.2:4];    % define some points
+n = length(range)
+X = zeros(n*n,2);
+for i = 1:n
+  for j = 1:n
+     X((i-1)*n+j,1) = range(i);
+     X((i-1)*n+j,2) = range(j);
+  endfor
+endfor
+l = 1.0                      % define length scale
+N =length(X)
+K = zeros(N,N);
+for i = 1:N
+  K(i,i) = 1;
+  for j = 1:i
+    K(j,i) = K(i,j) = exp(-norm(X(i,:)-X(j,:))^2/(2*l)); % define covariance matrix
+  endfor
+endfor
+
+L = chol(K+0.0001*eye(N));  % cheat to persuade octave K is positive definite
+f = L*randn(N,1);
+fm = reshape(f,n,n);
+[xx, yy] = meshgrid(range, range);
+mesh(xx, yy, fm);
+xlabel ("x");
+ylabel ("y");
+zlabel ("f(x,y)");
+title ("2-d Gaussian Process");

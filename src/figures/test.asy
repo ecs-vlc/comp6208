@@ -1,0 +1,10 @@
+ import figures/cakes;
+         size(3cm,0);
+         pair A = (0,0);
+         pair B = (10,0,true);
+         pair C = (5,0);
+	 node(A,"A");
+	 node(B,"B",true);
+	 node(C,"D");
+	 depend(A,C);
+	 depend(B,C);

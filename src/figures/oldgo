@@ -1,0 +1,115 @@
+#! /bin/bash
+
+web=0
+print=0
+force=0
+if [ "$1" == "-p" ]; then
+    print=1
+fi
+if [ "$1" == "-w" ]; then
+    print=1
+    web=1
+fi
+if [ "$1" == "-f" ]; then
+    force=1
+fi
+
+
+files=`grep \\lecture{ lectures.tex | sed 's/\\\lecture{//g' | sed 's/}//g'`
+filelist=($files)
+
+#echo $files
+
+
+n=1
+for f in $files; do
+  echo "$n $f";
+  n=$(( $n + 1 ));
+done
+
+n=`cat .gono`
+echo -n "choose a file (${filelist[$n]})? ";
+   read m;
+
+if [ "${m}" != "" ]; then
+    n=$(( m - 1 ));
+fi
+
+echo $n > ".gono"
+f=${filelist[$n]}
+
+outf=pdf/$f.pdf
+if [ $print == 1 ]; then
+    outf=pdf/${f}_prn.pdf
+fi
+
+
+
+if [ -e lectures.log ]; then
+    rm lectures.log
+fi
+
+
+if [ figures -nt $f.tex ]; then
+    figs=`ls -t figures/*.eps`
+    for fi in $figs; do
+	file=`basename $fi .eps`
+	pdf=figures/$file.pdf
+	if [ -e $pdf ] && [ $fi -nt $pdf ]; then
+	    rm  $pdf
+	    echo "rm $pdf"
+	    force=1
+	else
+	    break
+	fi
+    done
+fi
+
+if [ $force == 1 ] || [ $f.tex -nt $outf ] || [ macros_gen.tex -nt $outf ]; then
+    if echo $f | /usr/bin/pdflatex -shell-escape lectures; then
+	echo "OK"
+    else
+	echo "Error"
+	exit 1;
+    fi
+
+    echo $f | /usr/bin/pdflatex lectures
+    if [ $print == 0 ]; then
+	ppower4 lectures.pdf pdf/$f.pdf
+    else
+	cp lectures.pdf $outf
+	ppower4 lectures.pdf pdf/$f.pdf
+    fi
+fi
+
+
+if [ $print == 0 ]; then
+#    acroread $outf
+    evince $outf
+#    okular $outf
+    else
+    echo "hi"
+#    acroread $outf
+fi
+
+
+if [ $web == 1 ]; then
+    dir=`pwd`
+    cd pdf
+    pdfjam --nup 2x4 --no-landscape --outfile ${f}_prn_8.pdf ${f}_prn.pdf
+    pdfnup --nup 2x2 --outfile ${f}_prn_4.pdf ${f}_prn.pdf
+    cmd="pdftk "
+    for af in $files; do
+	cmd="$cmd ${af}_prn_8.pdf "
+    done
+    cmd="$cmd cat output lectures_8.pdf"
+    echo $cmd
+    $cmd
+    destination="apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/lectures"
+    scp $outf ${destination}
+    scp $f.pdf ${destination}
+    scp ${f}_prn_8.pdf ${destination}
+    scp ${f}_prn_4.pdf ${destination}
+    scp lectures_8.pdf ${destination}
+    cd $dir
+fi

@@ -1,0 +1,225 @@
+% Created 2024-01-29 Mon 11:45
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 4: Symmetry}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Keywords}
+\label{sec:orgf197648}
+\begin{itemize}
+\item Inductive Bias, Symmetry, Invariance, Group theory
+\end{itemize}
+
+\section{Main Points}
+\label{sec:org26c9e2b}
+
+\subsection{Inductive Bias}
+\label{sec:org0e30ab9}
+\begin{itemize}
+\item Learning machines are not universal approximators, but rather have a propensity
+to learn a specific set of rules
+\item This is known as their \emph{inductive bias}
+\item We want to choose the learning machine so the inductive bias reflects the properties
+of the problem
+\item In almost all problems we use some smoothness property to select slowly varying 
+functions
+\end{itemize}
+\subsection{Invariances}
+\label{sec:org85831ee}
+\begin{itemize}
+\item For many problems there are symmetries that you want your learning machine to 
+respect
+\item For example in image classification we consider the class of an object to be
+invariant to its position in an image
+\item Learning machines whose outputs are invariant to translations have a much smaller
+set of functions to learn and therefore are much less likely to overfit
+\item CNNs are equivariant in that if we translate the input the the output will be translated
+in the same way
+\item Building classifies using layers of CNN builds in a lot of translational invariance
+\item Ideally we want a classifier system to also be scale and rotation invariant, although we
+don't know how to this well
+\item Sometimes we use pyramid systems where we rescale the image and run the same
+operations on all scales
+\item However, in my datasets the foreground object is rescaled to fill most of the image
+with smaller object treated as the background so scale invariance is not necessarily
+required
+\item Often we try to learn invariance by augmenting the training set by artificially
+transforming the image (e.g. by reflecting, cropping, shearing and rescaling an image)
+\item Data augmentation usually gives a very significant improvement in performance
+\item We can sometimes achieve invariance by suitably normalising our data.  Again when
+done right this can give a significant improvement in performance
+\end{itemize}
+\subsection{Group Theory}
+\label{sec:org8927e29}
+\begin{itemize}
+\item The mathematical language of symmetry is group theory
+\item You should know group theory exists, but I'm not going to examine you on details
+of group theory
+\item This considers a set of objects (we can think of these as transformations)
+\item Together with a binary operation we can think of as composition
+\item That is if \(a,b\in\mathcal{G}\) are two transformations the \(a\cdot b\) can be 
+interpreted as applying transformation \(b\) followed by transformation \(a\)
+\item For the set, \(\matcal{G}\), and binary operation, "\(\cdot\)" to form a group they must satisfy four conditions
+\begin{enumerate}
+\item Closure: if \(a,b\in\mathcal{G}\) the \(a\cdot b \in \mathcal{G}\)
+\item Associativity: for all \(a,b,c\in\mathcal{G}\), we have \((a\cdot b)\cdot c = a \cdot (b\cdot c)\)
+\item Existence of an identity element where \(e\cdot a =a\)
+\item Every element, \(a\in\mathcal{G}\) has an inverse such that \(a^{-1} a = e\)
+\end{enumerate}
+\item (Group theory doesn't really care if the elements of the group are transformations,
+just that the axioms are satisfied)
+\item An example is the cyclic group \(C_{2}\)
+\begin{itemize}
+\item We can think of this as tossing a coin with two actions
+\begin{itemize}
+\item flip the coin: \(f\)
+\item leave the coin alone: \(e\)
+\end{itemize}
+\item These form a group as
+\begin{enumerate}
+\item Closure: \(f\cdot e=f\), \(f\cdot f = e\), \(e,\cdot e=e\) and \(e \cdot f =f\)
+(if you don't believe this get out a coin and try.  The first identity is don't do anything
+then flip the coin is the same as just flipping the coin)
+\item Associatity; this follows automatically from the operation being a composition
+(we will see this in innerProduct lecture where we look at matrix multiplication).
+You can also check rather boringly, e,g, \((e\cdot f)\cdot f =f\cdot f = e\) while
+\(e\cdot(f\cdot f) = e \cdot e = e\) thus \((e\cdot f)\cdot f =e\cdot(f\cdot f)\).  You can
+try this for all triples
+\item \(e\) is clearly the identity
+\item e\textsuperscript{-1}=e and \(f^{-1}=f\)
+\end{enumerate}
+\item The cyclic group \(C_{3}\) corresponds to the rotations of an equilateral triangle maps
+the triangle to itself.  While \(C_{n}\) are the rotations that keep an \(n\) sided polygon
+with identical sides onto itself
+\item The \emph{four group} is a second group of size 4 (besides \(C_{4}\)) that can be thought of
+as describing the flipping around a vertical and horizontal axis a rectangle, or rotating
+it by 180 degress around its centre of mass.  We can describe the group in terms of
+a \emph{multiplication table} where the first row and first column corresponds to the elements
+\(a_{i}\) and the \(i^{th}\) row and \(j^{th}\) column corresponds to
+the multiplication \(a_{j}\cdot a_{i}\)
+\begin{center}
+\begin{tabular}{l|llll}
+\hline
+ & e & v & h & r\\
+\hline
+e & e & v & h & r\\
+v & v & e & r & h\\
+h & h & r & e & v\\
+r & r & h & v & e\\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item This is an "Abelian group" meaning that for any elements \(a, b\) we have \(a\cdot b = b\cdot a\)
+\end{itemize}
+\item The group of permutations of \(n\) objects forms a group of size \(n!\) called the
+symmetric group \(S_{n}\)
+\begin{itemize}
+\item This is a group as the composition of a permutation is a permutation
+\item There is an identity (doing nothing)
+\item For every element there is an inverse permutation (which is a permutation)
+\item For \(n>2\) (where \(S_{2}=C_{2}\)) the group is non-Abelian meaning that there
+are permutations \(p_{i}\) and \(p_{j}\) where \(p_{1}\neq p_{2}\)
+\item Despite this composing permutations is associative
+\item Permutations have a lot of structure and \(S_{n}\) is very well studied
+\end{itemize}
+\item There exists groups with an infinite number of elements.  The set of integers with the
+operation of addition form a group with identity, 0, and the inverse of \(n\) is \(-n\)
+\begin{itemize}
+\item You can think of these describing an infinite set of discrete shifts
+\item You first started studying this group when you first learn to count
+\end{itemize}
+\item The set of rational numbers under addition also forms a group
+\item The reals under addition form a group describing any one dimensional translation
+\item The set of reals excluding 0 forms a group under multiplication with an identity 1 
+and where the inverse of \(x\) is \(1/x\)
+\begin{itemize}
+\item These can be thought of as describing scale transformations
+\end{itemize}
+\item Groups can be interpreted in different ways with their elements having different names
+(e.g. )one, two, three, \(\cdots{}\) or un, deux, trois, \(\cdots{}\)).  The permutation of two elements
+has the same structure (is isomorphic to) flipping a coin.  What counts is the structure of
+the multiplication time (up to re-ordering the elements)
+\end{itemize}
+\end{itemize}
+\subsubsection{Lie Groups}
+\label{sec:org9614cdd}
+\begin{itemize}
+\item When we consider continuous transformation in high dimensional space then we find a
+set of very interesting groups known as Lie groups
+\item These describe things like general translational invariance, rotational invariance,
+relativistic invariance
+\item The set on transformations can be represented as matrices, with the composition operator
+being matrix multiplication
+\item Different groups correspond to different sets of matrices.
+\item A well known group is the set of \(n\times n\) orthogonal matrices \(O(n)\)
+\item By definition of orthogonal matrices \(\mat{M}^\tr \mat{M} = \mat{M}\, \mat{M}^\tr = \mat{I}\)
+\item These correspond to rotations and reflections
+\item Note that, in general,  \(\det(\mat{M}^{\tr}) = \det(\mat{M})\) and
+\(\det(\mat{A}\,\mat{B}) = \det(\mat{A}) \times \det{\mat{B}}\)
+\item As a consequence \(\det(\mat{M}^\tr \mat{M} ) = \det(\mat{I}) =1\) so
+that \(\det(\mat{M})^{2}=1\) or \(\det(\mat{M}) = \pm 1\)
+\item If \(\det(\mat{M}) = -1\) then the  transformation involves a reflection
+\item The special orthogonal group, \(SO(n)\), corresponds to a subgroup
+of matrices in \(O(2)\) with \(\det(\mat{M})=1\).  These correspond
+to rotations only
+\item The group \(SO(2)\) corresponds to 2-d rotations where the
+elements of the group are matrices
+ \begin{align*}
+ \begin{pmatrix}
+    \cos(\theta) & \sin(\theta) \\
+   -\sin(\theta) & \cos(\theta)\pause
+ \end{pmatrix}
+\end{align*}
+\end{itemize}
+\end{document}

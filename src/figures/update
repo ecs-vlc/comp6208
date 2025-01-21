@@ -1,0 +1,53 @@
+#! /bin/bash
+
+files=`grep "\\lecture{" lectures.tex | grep -v % | sed 's/\\\lecture{//g' | sed 's/}//g'`
+
+ssh-agent
+for f in $files
+do
+    if [ -f videos/${f}.mp4 ]; then	
+	if [ videos/${f}.mp4 -nt videos/${f}-time ]; then
+	    echo "Need to copy video file ${f}.mp4 to stafflogin"
+	    scp videos/${f}.mp4 apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/lectures/videos/${f}.mp4
+	fi
+    fi
+    if [ pdf/${f}_prn_8.pdf  -nt $f.tex ]; then
+        continue
+    fi
+    echo "Processing $f"
+    outf=pdf/$f.pdf
+    if echo $f | /usr/bin/pdflatex -shell-escape lectures; then
+	echo "OK"
+    else
+	echo "Error"
+	exit 1;
+    fi
+    echo $f | /usr/bin/pdflatex lectures &> /dev/null
+    ppower4 lectures.pdf $f.pdf
+    outf=pdf/${f}_prn.pdf
+    mv lectures.pdf $outf
+    pdfjam --nup 2x4 --no-landscape --outfile pdf/${f}_prn_8.pdf pdf/${f}_prn.pdf
+    pdfjam --nup 2x2 --outfile pdf/${f}_prn_4.pdf pdf/${f}_prn.pdf
+    dir=$cwd
+    destination="apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/lectures/"
+    if [ -f src/${f}.ipynb ]
+    then
+	scp src/${f}.ipynb ${destination}
+    fi
+    scp $outf ${destination}
+    scp pdf/$f.pdf ${destination}
+    scp pdf/${f}_prn_8.pdf ${destination}
+    scp pdf/${f}_prn_4.pdf ${destination}
+    ssh apb1@stafflogin.ecs.soton.ac.uk chmod +r /notes/comp6208/lectures/*
+    # Video
+done
+#cmd="pdftk "
+#for f in $files; do
+#    cmd="$cmd pdf/${f}_prn_8.pdf "
+#done
+#cmd="$cmd cat output pdf/lectures_8.pdf"
+#echo $cmd
+#$cmd
+#scp pdf/lectures_8.pdf ${destination}
+#lecturehtml
+lecturephp

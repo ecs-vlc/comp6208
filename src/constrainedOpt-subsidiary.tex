@@ -1,0 +1,351 @@
+% Created 2024-02-26 Mon 17:18
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 15: Constrained Optimisation}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Keywords}
+\label{sec:orgefc1759}
+\begin{itemize}
+\item Lagrangians, Inequalities, KKT, Linear Programming,
+\end{itemize}
+
+\section{Main Points}
+\label{sec:org81caf33}
+
+\subsection{Equality Constraints}
+\label{sec:orgfbe3eef}
+\begin{itemize}
+\item If we want to minimise \(f(\bm{x})\) subject to the constraint
+\(g(\bm{x})=0\) this is equivalent to solving the problem
+$$ \min_{\bm{x}} \max_{\alpha} \mathcal{L}(\bm{x},\alpha) $$
+where \(\mathcal{L}(\bm{x},\alpha)\) is a \emph{Lagrangian} given by
+$$ \mathcal{L}(\bm{x},\alpha) = f(\bm{x}) - \alpha\,g(\bm{x}) $$
+\item \(\alpha\) is a Lagrange multiplier that is determined by the joint
+optimisation problem
+\item Note that we seek a saddle-point
+\begin{itemize}
+\item We minimise with respect to \(\bm{x}\) and maximise with respect
+to \(\alpha\)
+\item We can't escape this
+\begin{itemize}
+\item if we multiply \(\alpha\) by \(-1\) we just changing the directions
+of the \(\alpha\) axis but still have a saddle-point
+\item if we multiply both terms by \(-1\) then we would end up
+minimising with respect to \(\alpha\), but maximising with
+respect to \(\bm{x}\)
+\end{itemize}
+\end{itemize}
+\item The solution to our problem must satisfy
+\begin{align*}
+\grad  \mathcal{L}(\bm{x},\alpha) &=
+\grad f(\bm{x}) - \alpha\,\grad g(\bm{x}) = 0, &
+\frac{\partial \mathcal{L}(\bm{x},\alpha)}{\partial \alpha} &=
+g(\bm{x}) = 0
+\end{align*}
+\begin{itemize}
+\item The second equation ensures that we sit on the constraint
+\item The first equation says that the gradient of \(f(\bm{x})\) must be
+perpendicular to the constraint
+\item This is necessary for the solution to be a (local) minimum
+(i.e. we can not get an improvement by moving along the constraint)
+\item There can be multiple solutions: these equations at a satisfied
+for any local minima on the constraint
+\end{itemize}
+\item If we have multiple equality constraints we just use multiple
+Lagrange multipliers
+\end{itemize}
+
+\subsection{Inequality constraints}
+\label{sec:org7699c4a}
+\begin{itemize}
+\item If we are minimising \(f(\bm{x})\) subject to an inequality
+constraint \(g(\bm{x})\geq0\) then one of two things can happen
+\begin{enumerate}
+\item Either we have a (local) minimum of \(f(\bm{x})\) that satisfies
+the constraint or
+\item We have a local minimum on the constraint
+\end{enumerate}
+\item We can therefore solve this problem by again using a Lagrangian
+$$ \mathcal{L}(\bm{x},\alpha) = f(\bm{x}) - \alpha\,g(\bm{x}) $$
+with the additional constraint \(\alpha\geq0\)
+\begin{itemize}
+\item If the minimum lies in a region that satisfies the constraint
+then we just set \(\alpha=0\) and minimise \(f(\bm{x})\)
+\item If the solution lies on the constraint we again have  \(\grad
+       f(\bm{x}) = \alpha\,\grad g(\bm{x})\), but now \(\alpha>0\) which
+means that not only is there no improving direction along the
+constraint, but also the negative-gradient of \(f(\bm{x})\)
+points in the direction where \(g(\bm{x})\) becomes smaller,
+i.e. in the region that violates the constraint
+\begin{itemize}
+\item note if \(\alpha<0\) we could find a better solution moving
+away from the constraint into the feasible region
+\end{itemize}
+\item \emph{Karush-Kuhn-Tucker (KKT) Conditions}
+\begin{itemize}
+\item For inequality constraints we require either
+\begin{enumerate}
+\item \(\alpha=0\) and there is an unconstrained minimum in the
+regions \(g(\bm{x})\geq0\) or
+\item \(\alpha>0\) and the solution lies on \(g(\bm{x})=0\)
+\end{enumerate}
+\end{itemize}
+\end{itemize}
+\item If we have multiple inequality constraints we just introduce a
+Lagrange multiply for each constraint with \(\alpha\geq0\)
+\end{itemize}
+
+\subsection{Duality}
+\label{sec:org7213653}
+\begin{itemize}
+\item Our problem of solving \(f(\bm{x})\) subject to some constraints is
+known as the \emph{primal problem}
+\item If our problem is sufficiently simple we can sometimes find a
+solution \(\bm{x}^*(\bm{\alpha})\) that satisfies
+$$ \grad  \mathcal{L}(\bm{x}^*(\bm{\alpha}),\bm{\alpha}) = 0 $$
+\item This leaves us with the \emph{dual problem}
+$$ \max_{\bm{\alpha}} \;
+     \mathcal{L}(\bm{x}^*(\bm{\alpha}),\bm{\alpha}) $$
+possible with constraints on \(\bm{\alpha}\) (e.g. \(\alpha_i\geq0\))
+that arise from KKT conditions
+\item \textbf{Linear Programming}
+\begin{itemize}
+\item In linear programming we are trying to find a value of \(\bm{x}\)
+that minimises a linear objective function \(\bm{c}^\tr\bm{x}\)
+subject to linear constraints \(\mat{M}\,\bm{x} = \bm{b}\)
+(and/or \(\mat{M}\bm{x}\geq \bm{b}\))
+\item We can write this as a Lagrange problem
+$$ \mathcal{L} = \bm{c}^\tr \bm{x}  - \bm{\alpha}^\tr \left(
+       \mat{M}\bm{x} - \bm{b}\right) $$
+(subject to constraints \(\bm{\alpha}\geq0\) if we have
+inequality constraints in the primal problem)
+\item We can rearrange the Lagrangian as
+$$ \mathcal{L} = \bm{\alpha}^\tr  \bm{b} + \left( \bm{c}^\tr - \bm{\alpha}^\tr \mat{M} \right) \bm{x} $$
+\item Using the identity \(\bm{a}^\tr\bm{b} = \bm{b}^\tr \bm{a}\) w can rewrite this
+as
+$$ \mathcal{L} =  \bm{b}^\tr \bm{\alpha} - \bm{x}^\tr \left(\mat{M}^\tr \bm{\alpha} - \bm{c} \right) $$
+\item But we can now treat \(\bm{x}\) as a Lagrange multiplier so we
+get the \emph{dual problem}
+$$ \max_{\bm{\alpha}} \; \bm{b}^\tr \bm{\alpha} $$
+subject to the constraint
+$$ \mat{M}^\tr \bm{\alpha} =  \bm{c} $$
+\item If the original constraints were inequality constraints the \(\bm{\alpha}\geq0\)
+\item The dimensionality of the dual problem can sometimes be much
+lower than that of the primal problem making it easier to solve
+\end{itemize}
+\item \textbf{Quadratic Program}
+\begin{itemize}
+\item In a quadratic program we have to minimise a quadratic loss
+\(\bm{x}^\tr \mat{Q}\,\bm{x}\) subject to linear constraints
+\(\mat{M}\,\bm{x} =\mat{b}\) (or \(\mat{M}\,\bm{x} \geq \mat{b}\))
+\item For there to be a unique minimum \(\mat{Q}\) must be positive
+definite (which is sometimes written \(\mat{Q}\succ0\))
+\item We can write a Lagrangian
+$$ \mathcal{L}(\bm{x},\bm{\alpha}) = \bm{x}^\tr \mat{Q}\, \bm{x} -
+      \bm{\alpha}^\tr \left( \mat{M}\,\bm{x} - \bm{b}\right) $$
+\item The solution is given by  \(\max\limits_{\bm{\alpha}}
+        \min\limits_{\bm{x}}  \mathcal{L}(\bm{x},\bm{\alpha})\)
+\item If the constraints are inequality constraints then \(\alpha_i\geq0\)
+\item The minimum with respect to \(\bm{x}\) is given by 
+$$ \grad_{\bm{x}} \mathcal{L}(\bm{x},\bm{\alpha}) =  2\, \mat{Q}\,
+        \bm{x} + \mat{M}^\tr \bm{\alpha} = 0 $$
+\item So that \(\bm{x}^* = \frac{1}{2} \mat{Q}^{-1} \mat{M}^\tr\)
+\item Substituting this back into the Lagrangian we get the dual problem
+ $$ \max_{\bm{\alpha}}
+      -\frac{1}{4} \bm{\alpha}^\tr \mat{M} \mat{Q}^{-1} \mat{M}^\tr
+      \bm{\alpha} + \bm{\alpha}^\tr \bm{b} $$
+with \(\alpha_i\geq0\) if we started with inequality constraints
+\begin{itemize}
+\item note in the derivation that we end up with two terms
+proportional to \(\bm{\alpha}^\tr \mat{M} \mat{Q}^{-1} \mat{M}^\tr
+          \bm{\alpha}\) one partially cancelling the other
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
+
+\section{Exercises}
+\label{sec:orgb7b2f70}
+
+\subsection{Quadratic with a linear constraint}
+\label{sec:orgaea0859}
+\begin{itemize}
+\item Consider minimising \(f(\bm{x}) = \tfrac{1}{2} \bm{x}^\tr \mat{Q} \bm{x}\)
+subject to the constraint \(\bm{a}^\tr\bm{x} = b\)
+\begin{enumerate}
+\item Write a Lagrangian for this problem
+\item Find the minimum of the Lagrangian with respect to \(\bm{x}\)
+\item Write down and solve the dual problem
+\item Hence write down a solution to the primal problem
+\end{enumerate}
+\item See answers, but also experiments
+\end{itemize}
+
+\subsection{Saddle Point}
+\label{sec:org81f28a0}
+\begin{itemize}
+\item Strangely (for me at least) the optimum of a constrained
+optimisation problem is given by the saddle-point of the Lagrangian
+\item Consider the problems of minimising \(x^2/2\) subject to the
+constraint \(x=1\)
+\begin{enumerate}
+\item Write down the Lagrangian
+\item Calculate the Hessian matrix (matrix of second derivatives)
+\item Compute the eigenvalues of the Hessian (show that they have
+different signs everywhere so there are  no maxima or minima)
+\end{enumerate}
+\item See answers
+\end{itemize}
+
+\section{Experiments}
+\label{sec:orgeffb909}
+
+\subsection{Quadratic with a linear constraint}
+\label{sec:org42ec1be}
+\begin{itemize}
+\item Let \(X\) be a \(10\times5\) random matrix with elements drawn from
+\(\mathcal{N}(0,1)\)
+\item Let \(\mat{Q} = \mat{X}^\tr \mat{X}\)
+\begin{itemize}
+\item Check that this is positive definite
+\end{itemize}
+\item Let \(f(\bm{x}) = \tfrac{1}{2} \bm{x}^\tr \mat{Q} \bm{x}\)
+\item Let \(\bm{a}\) be a random vector with 5 elements drawn from \(\mathcal{N}(0,1)\)
+\item We want to minimise \(f(\bm{x})\) subject to the constraint \(\bm{a}^\tr\bm{x}=1\)
+\item Work out the Lagrangian, \(L(\bm{x},\alpha)\) for this system
+\item Write an iterative gradient solver that
+\begin{enumerate}
+\item Makes steps \(\bm{x}\leftarrow \bm{x} - r \grad L(\bm{x},\alpha)\)
+\item Makes steps \(\alpha \leftarrow \alpha + r \frac{\partial
+        L(\bm{x},\alpha)}\partial \alpha}\)
+\end{enumerate}
+\item Note you will have to tune the learning step \(r\)
+\item Compare the solution you find by running your algorithm until
+convergence with the exact result (see exercise and/or answer)
+\end{itemize}
+
+\begin{minted}[]{matlab}
+function [x,alpha] = optimise(Q,a,r)
+  x = rand(5,1);                                 % initialise x
+  alpha = 0;                                       % initialise alpha
+  for t=1:1000
+    x = x - r*(Q*x-alpha*a);                  % x = x - r  \grad L
+    alpha = alpha + r*(-(a'*x-1));          % alpha = alpha + r dL/d\alpha
+  endfor
+endfunction
+
+[x,alpha] = optimise(Q,a,0.1)
+
+alphaTheory = 1/(a'*Q*a)
+xTheory = inv(Q)*a*alphaTheory
+
+\end{minted}
+
+
+
+
+\section{Answers}
+\label{sec:org39143c8}
+
+\subsection{Quadratic with a linear constraint}
+\label{sec:org7e9dd34}
+\begin{enumerate}
+\item The Lagrangian is given by
+$$ \mathcal{L}(\bm{x},\alpha) = \frac{1}{2}\, \bm{x}^\tr \mat{Q}
+      \bm{x} - \alpha \,(\bm{a}^\tr\bm{x} - b) $$
+\item Minimising with respect to \(\bm{x}\) we get
+$$ \grad  \mathcal{L}(\bm{x},\alpha) =  \mat{Q}\,  \bm{x} + \alpha\,
+      \bm{a} = 0 $$
+or \(\bm{x} = \alpha\, \mat{Q}^{-1} \bm{a}\)
+\item Thus the dual problem is
+$$ \max_\alpha - \frac{1}{2} \alpha^2 \, \bm{a}^\tr\, \mat{Q}^{-1}\bm{a} + \alpha\,b $$
+\begin{itemize}
+\item The solution to the dual problem is
+$$ \alpha = \frac{b}{\bm{a}^\tr\, \mat{Q}^{-1}\bm{a}} $$
+\end{itemize}
+\item Thus the solution to the primal problem is
+$$ \bm{x} = \frac{b\, \mat{Q}^{-1} \bm{a}}{\bm{a}^\tr\,
+      \mat{Q}^{-1}\bm{a}} $$
+\begin{itemize}
+\item Note that in most quadratic programming problems we are dealing
+with many inequality constraints so solving the dual problem in
+closed form isn't necessarily easy
+\end{itemize}
+\end{enumerate}
+
+\subsection{Saddle Point}
+\label{sec:org59cd79d}
+\begin{itemize}
+\item Just do it
+\begin{enumerate}
+\item The Lagrangian is given bye
+$$ \mathcal{L} = \frac{x^2}{2} - \alpha\, (x-1) $$
+\item The Hessian is given by
+$$ \mat{H} = \begin{pmatrix} 1 & -1 \\ -1 &0 \end{pmatrix} $$
+\item The traces \(T = 1\) and the determinant \(D = -1\) So that
+$$ \lambda = \frac{T \pm \sqrt{T^2 - 4\, D}}{2} = \frac{1
+	\pm{5}}{2} = \{1.618, -0.618\} $$
+If you prefer you can compute the eigenvalues numerically
+\end{enumerate}
+\item Note that whatever we do the determinant will be negative leading
+to a negative eigenvalue (the determinant is equal to the product
+of eigenvalues).   This would be true if we were maximising
+\(-x^2/2\).  You can change the constraints or the objective
+function, but you will still get eigenvalues of different signs.
+\end{itemize}
+\end{document}
