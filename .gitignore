@@ -1,0 +1,9 @@
+#*#
+*~
+*.csv
+*.log
+*.aux
+*.old
+src/*.pdf
+videos
+src/*.ipyn

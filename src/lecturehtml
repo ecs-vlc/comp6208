@@ -51,14 +51,14 @@ subsidiary() {
 	then
 	    echo "Updating  $1-subsidiary.pdf"
 	    cp $1-subsidiary.pdf $destination
-	    date > pdf/$1-sub-time
+	    git add $1-subsidiary.pdf  $destination
 	fi
     fi
 }
 
 	
 
-of=index.html
+of=lectures.html
 files=`grep \\lecture{ lectures.tex | grep -v % | sed 's/\\\lecture{//g' | sed 's/}//g'`
 
 cat > $of <<EOF
@@ -88,7 +88,7 @@ for f in $files; do
     fi
     subsidiary ${f}
     if [ -f ${f}-subsidiary.pdf ]; then
-	sub="<li> <a href="/notes/comp6208/lectures/${f}-subsidiary.pdf">Subsidiary notes on lecture</a></li>"
+	sub="<li> <a href=\"/notes/comp6208/lectures/${f}-subsidiary.pdf\">Subsidiary notes on lecture</a></li>"
     else
 	subs=""
     fi
@@ -103,7 +103,7 @@ for f in $files; do
 EOF
     if [ -f ./${f}-subsidiary.pdf ]; then
 	echo ${f}-subsidiary.pdf
- 	echo "<ul> notes_pdf/$sub  </ul>" >> ${of}
+ 	echo "<ul> <li> <a href="notes_pdf/${f}-subsidiary.pdf">Notes</a>   </ul>" >> ${of}
     fi
     if [ -f src/${f}.ipynb ]; then
 	echo "<ul> <li> <a href=\"notebook/$f.ipynb\">Juputer Notebook</a></ul>" >> ${of}
@@ -116,3 +116,6 @@ cat >> $of <<EOF
 </HTML>
 EOF
 cp index.html /home/apb/teaching/courses/comp6208/github/site
+git add /home/apb/teaching/courses/comp6208/github/site
+git commit -m "update lectures"
+git push

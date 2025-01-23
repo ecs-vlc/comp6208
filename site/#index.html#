@@ -1,0 +1,20 @@
+<HTML>
+<HEAD>
+<TITLE>COMP6208 Advanced Machine Learning 
+</TITLE>
+</HEAD>
+
+<H1 align="center">COMP2208 Advanced Machine Learing</H1>
+
+<H2>Course Description</H2>
+
+<p>This course provides an introduction to the mathematics of machine learning.  We explore topics such as calculus for ML, vector spaces, norms, inner products, eigen decomposition, SVD, symmetry, probabilistic modelling, entropy, etc.  We use these to understand generalisation, ensemble methods, SVMs, Wasserstein GANs, Gaussian Processes, minimum description length, etc.</p>
+
+<H2>Course Information</H2>
+<UL>
+  <LI> <A HREF="lectures.html">Lecture Notes</A>
+  <LI> <A HREF="exams.html">Past papers</A>
+</UL>
+
+
+</HTML>
