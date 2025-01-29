@@ -1,0 +1,9 @@
+#! /bin/bash
+
+files='*-questions.pdf *-answers.pdf'
+
+ssh-agent
+for f in $files
+do
+    scp ${f} apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/problems/
+done

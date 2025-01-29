@@ -1,0 +1,124 @@
+%% ELEC2013 2007
+
+%% ----------------------------------------------------------------
+%% exam.tex
+%% ----------------------------------------------------------------
+\documentclass{sotonExamBoxes}    % use option [answers] to include them
+%\documentclass[answers]{uosexamb}
+%% ----------------------------------------------------------------
+\usepackage{graphicx}
+%\usepackage{pstricks}
+\usepackage{alltt}
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\thinmuskip=1mu
+%\renewcommand{\ttdefault}{pcr}
+\renewcommand{\ttdefault}{pcr}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\E}[1]{{\rm e}^{{\displaystyle #1}}}
+\newcommand{\logg}[1]{\log\left(#1\right)}
+\newcommand{\bra}[1]{\left(#1\right)}
+\newcommand{\Prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\Step}{\mathop{\mathrm{O}\hspace{-15pt}\rule[8.5pt]{11pt}{1.2pt}\hspace{2pt}}}
+\newcommand\diag{\mathop{\mathrm{diag}}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\class}{\mathcal{C}}
+\newcommand{\data}{\mathcal{D}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\pd}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}\xspace}
+\newcommand{\M}[1]{\ensuremath{\boldsymbol{#1}}\xspace}
+\newcommand{\bst}{\rule{0mm}{5mm}}
+\newcommand{\av}[2][\,]{\mathbb{E}_{#1}\!\left[ {\strut #2} \right]}
+\newcommand{\len}[1]{\| #1 \|}
+\graphicspath{{figures/} {../2018-19/figures}}
+\newcommand{\inner}[2]{\left\langle #1, #2\right\rangle}
+\graphicspath{{figures/}}
+\newcommand{\squeeze}{\setlength{\itemsep}{-2pt}}
+\newcommand{\Tr}{\mathop{\mathrm{tr}}\,}
+
+% \usepackage{picture}
+\begin{document}
+\unitTitle{Problem Sheet 2 for Advanced Machine Learning (COMP6208)}
+\authors{Adam Pr\"ugel-Bennett}
+\unitcode{COMP6208}
+\semester{2}
+\year{2022}
+\duration{45}{0}
+
+
+\maketitle
+
+
+%\blankpage
+
+
+%% ----------------------------------------------------------------
+%\section
+% -----------------------------------------------------------------------
+% *************************  Section A  *********************************
+% -----------------------------------------------------------------------
+
+% ***************************** question 1 **************************
+
+% ***************************** question 2 **************************
+
+\begin{question}{10}
+  \begin{qparts}
+    \qpart[5]{Newton's method is not guaranteed to converge
+      if we start too far from $x^{*}$.  The Banach fixed-point
+      theorem guarantees that if we apply a contraction mapping\,
+      $\mathcal{T}$ from a metric space, $\mathcal{V}$, to itself applied multiple
+      times will reach a unique fixed-point.  The mapping
+      $T:\mathcal{V}\rightarrow \mathcal{V}$ is a contraction mapping if
+      \begin{align*}
+        d(T(\bm{x}) , T(\bm{y})) \leq d(\bm{x}- \bm{y})
+      \end{align*}
+      for all $\bm{x}$ and $\bm{y}$.
+
+      We consider the mapping $f:\mathbb{R}\rightarrow\mathbb{R}$
+      with a metric $d(x,y) = |x-y|$. Let $\epsilon>0$ and let
+      $x=y+\epsilon$ and assume that $f(x)$ is suitable well behaved
+      that it can be approximated by the Taylor expansion
+      $f(y+\epsilon) = f(y) + \epsilon f'(y) + O(\epsilon^2)$ obtain
+      a condition for $f(x)$ to be a contraction mapping in terms of
+      the derivative $f'(x)$.}{\lines{10}}
+    \begin{answer}
+      Substituting in $x= y+\epsilon$ into  $|f(x) - f(y)|$
+      we find
+      \begin{align*}
+        |f(x) - f(y)|
+        &= |f(y + \epsilon) -f(y)| = |\epsilon\, f'(y) + O(\epsilon^2)|
+        \\
+        &\leq |\epsilon\, f'(y)| + | O(\epsilon^2)|
+          = \epsilon \, |f'(y)| +\epsilon^2 \, | O(1)|
+      \end{align*}
+      where we $|x+y| <|x| +|y|$ (this is the triangular inequality in
+      this metric space).  For this to be true in the limit
+      $\epsilon\rightarrow 0$ we require $ |f(x) - f(y)| \leq
+      \epsilon \, |f'(y)|$, but $\epsilon = x-y$ so that
+      \begin{align*}
+         |f(x) - f(y)| \leq |f'(y)|\, |x-y|,
+      \end{align*}
+      Thus a sufficient condition for $f(x)$ to be contraction
+      mapping is that $f'(x)<1$ for all $x$.  This is also a
+      necessary condition as
+      \begin{align*}
+         |f(x) - f(y)|
+        &=  |\epsilon\, f'(y) + O(\epsilon^2)| \geq
+          |\epsilon\, f'(y)| - |O(\epsilon^2)| \
+        \\
+        &=  \epsilon\, |f'(y)| - \epsilon^2 \,|O(1)|           
+      \end{align*}
+      If $|f'(y)|\geq 1$ at any point $y$ then in the limit $\epsilon
+      \rightarrow 0$ the mapping would not be a contraction mapping at
+      that point.
+    \end{answer}
+  \end{qparts}
+\end{question}
+
+
+\end{document}
