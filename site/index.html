@@ -1,90 +1,247 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Machine Learning</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background: url('ml-banner.png') no-repeat center center/cover;
-            color: purple;
-            padding: 100px 20px;
-            font-size: 4em;
-            text-align: center;
-        }
-        .container {
-            width: 95%;
-            margin: auto;
-            background: white;
-            padding: 2px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin-top: 5px;
-        }
-        h1 {
-	    text-align: center;
-            color: #333;
-        }
-        h2 {
-            color: #333;
-        }
-        ol {
-            text-align: left;
-            margin-left: 20px;
-        }
-        ul {
-            text-align: left;
-            margin-left: 20px;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background: #333;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        COMP6208 Advanced Machine Learning
-    </header>
-    <div class="container">
-        <h2>Lecture Timetable</h2>
-        <ol>
-            <li>11:00-11:45 Tuesday, Building 35 room 1005</li>
-            <li>16:00-16:45 Tuesday, Building 44 room 1041 (L/T A)</li>
-            <li>15:00-15:45 Thursday, Building 44 room 1041 (L/T A)</li>
-        </ol>
+<HTML>
+<HEAD>
+<TITLE>Lecture Notes
+</TITLE>
+</HEAD>
 
-        <h2>Problem Sheet</h2>
-        <ol>
-            <li><a href="problems/biasVariance-questions.pdf">Bias Variance Problem Sheet</a> <a href="problems/biasVariance-answers.pdf">(Answers)</a></li>
-            <li><a href="problems/ensembleLearning-questions.pdf">Ensemble Learning Problem Sheet</a> <a href="problems/ensembleLearning-answers.pdf">(Answers)</a></li>
-            <li><a href="problems/vectorSpaces-questions.pdf">Vector Space Problem Sheet</a> <a href="problems/vectorSpaces-answers.pdf">(Answers)</a></li>
-            <li><a href="problems/convexity-questions.pdf">Convexity Problem Sheet</a> <a href="problems/convexity-answers.pdf">(Answers)</a></li>
-        </ol>
+<H1 align="center">Lecture Notes</H1>
 
-        <h2>Course Information</h2>
-        <ul>
-            <li><a href="lectures.html">Lecture Notes</a></li>
-            <li><a href="exams.html">Past Papers</a></li>
-        </ul>
-    </div>
-    <footer>
-        &copy;ECS 2025: COMP6208 Advanced Machine Learning
-    </footer>
-</body>
-</html>
+<h2> Notes by Adam Pr&uuml;gel-Bennett </h2>
+
+
+<ol>
+<li><b>Course Outline</b>: Course Details and Topics
+<ul> <li>
+     <a href="lecture_pdf/courseOutline.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/courseOutline_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/courseOutline_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/courseOutline_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<li><b>When Machine Learning Works</b>: When ML Works, Bias Variance
+<ul> <li>
+     <a href="lecture_pdf/biasVariance.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/biasVariance_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/biasVariance_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/biasVariance_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/biasVariance-subsidiary.pdf>Notes</a>   </ul>
+<ul> <li> <a href="notebook/biasVariance.ipynb">Juputer Notebook</a></ul>
+<li><b>Over-Fitting</b>: Overfitting, regularisation, feature selection
+<ul> <li>
+     <a href="lecture_pdf/overfitting.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/overfitting_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/overfitting_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/overfitting_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/overfitting-subsidiary.pdf>Notes</a>   </ul>
+<ul> <li> <a href="notebook/overfitting.ipynb">Juputer Notebook</a></ul>
+<li><b>Symmetry</b>: Inductive Bias, Symmetry, Invariance, Group theory
+<ul> <li>
+     <a href="lecture_pdf/symmetry.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/symmetry_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/symmetry_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/symmetry_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/symmetry-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Ensemble Methods</b>: Decision Trees, Averaging, Bagging
+<ul> <li>
+     <a href="lecture_pdf/ensembleLearning.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/ensembleLearning_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/ensembleLearning_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/ensembleLearning_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/ensembleLearning-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Boosting</b>: Boosting, AdaBoost, Gradient Boosting
+<ul> <li>
+     <a href="lecture_pdf/boosting.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/boosting_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/boosting_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/boosting_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/boosting-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Vector Spaces</b>: Vectors, metric spaces, norms
+<ul> <li>
+     <a href="lecture_pdf/vectorSpaces.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/vectorSpaces_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/vectorSpaces_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/vectorSpaces_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/vectorSpaces-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Inner Product Spaces</b>: Inner products, operators
+<ul> <li>
+     <a href="lecture_pdf/innerProduct.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/innerProduct_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/innerProduct_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/innerProduct_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/innerProduct-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Understand Mappings</b>: Mappings, Linear Maps, Solving Linear Systems
+<ul> <li>
+     <a href="lecture_pdf/mappings.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/mappings_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/mappings_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/mappings_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/mappings-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Eigensystems</b>: Eigenvectors, Orthogonal Matrices, Eigenvector
+<ul> <li>
+     <a href="lecture_pdf/eigensystems.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/eigensystems_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/eigensystems_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/eigensystems_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/eigensystems-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Principal Component Analysis (PCA)</b>: Covariance matrices, dimensionality reduction, PCA, Duality
+<ul> <li>
+     <a href="lecture_pdf/pca.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/pca_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/pca_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/pca_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/pca-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Singular Value Decomposition (SVD)</b>: Singular Valued Decomposition, SVD, general linear maps
+<ul> <li>
+     <a href="lecture_pdf/svd.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/svd_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/svd_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/svd_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/svd-subsidiary.pdf>Notes</a>   </ul>
+<ul> <li> <a href="notebook/svd.ipynb">Juputer Notebook</a></ul>
+<li><b>Optimisation</b>: Gradient descent, quadratic minima, differing length scales
+<ul> <li>
+     <a href="lecture_pdf/optimisation.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/optimisation_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/optimisation_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/optimisation_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/optimisation-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Stochastic Gradient Descent</b>: SGD, momentum, step size, ADAM
+<ul> <li>
+     <a href="lecture_pdf/sgd.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/sgd_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/sgd_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/sgd_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/sgd-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Constrained Optimisation</b>: Lagrangians, Inequalities, KKT, Linear Programming,
+<ul> <li>
+     <a href="lecture_pdf/constrainedOpt.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/constrainedOpt_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/constrainedOpt_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/constrainedOpt_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/constrainedOpt-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Convexity</b>: Convex sets, convex functions, Jensen's inequality
+<ul> <li>
+     <a href="lecture_pdf/convexity.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/convexity_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/convexity_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/convexity_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/convexity-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Support Vector Machines</b>: Support Vector Machines, maximum margins
+<ul> <li>
+     <a href="lecture_pdf/svm.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/svm_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/svm_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/svm_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/svm-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Kernel Trick</b>: The Kernel Trick, SVMs, Regression
+<ul> <li>
+     <a href="lecture_pdf/kernelTrick.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/kernelTrick_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/kernelTrick_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/kernelTrick_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/kernelTrick-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Wasserstein GANs</b>: GANs, Wasserstein distance, Duality, WGANs
+<ul> <li>
+     <a href="lecture_pdf/wasserstein.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/wasserstein_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/wasserstein_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/wasserstein_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/wasserstein-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Probability</b>: Probability, Random Variables, Expectations
+<ul> <li>
+     <a href="lecture_pdf/probability.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/probability_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/probability_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/probability_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/probability-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Bayesian Inference</b>: Bayes, Conjugate Priors, Uninformative Priors
+<ul> <li>
+     <a href="lecture_pdf/bayes.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/bayes_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/bayes_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/bayes_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/bayes-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Gaussian Processes</b>: Gaussian Processes, regression
+<ul> <li>
+     <a href="lecture_pdf/gaussianProcesses.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/gaussianProcesses_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/gaussianProcesses_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/gaussianProcesses_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/gaussianProcesses-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Probabilistic Inference</b>: Hierarchical Models, Mixture of Gaussians, Expectation Maximisation
+<ul> <li>
+     <a href="lecture_pdf/ProbabilisticInference.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/ProbabilisticInference_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/ProbabilisticInference_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/ProbabilisticInference_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/ProbabilisticInference-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Graphical Models</b>: Conditional Independence, Graphical models, LDA
+<ul> <li>
+     <a href="lecture_pdf/graphicalModels.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/graphicalModels_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/graphicalModels_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/graphicalModels_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/graphicalModels-subsidiary.pdf>Notes</a>   </ul>
+<li><b>MCMC</b>: Monte Carlo methods, MCMC, Variational Methods
+<ul> <li>
+     <a href="lecture_pdf/mcmc.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/mcmc_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/mcmc_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/mcmc_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/mcmc-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Entropy</b>: Entropy, Coding, Maximum Entropy
+<ul> <li>
+     <a href="lecture_pdf/entropy.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/entropy_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/entropy_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/entropy_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/entropy-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Information Theory</b>: Information, KL-divergence, Minimum Description Length
+<ul> <li>
+     <a href="lecture_pdf/information.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/information_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/information_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/information_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<ul> <li> <a href=notes_pdf/information-subsidiary.pdf>Notes</a>   </ul>
+<li><b>Differential Calculus</b>: Differentiation, product and chain rules, vectors and matrices
+<ul> <li>
+     <a href="lecture_pdf/calculus.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/calculus_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/calculus_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/calculus_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+<li><b>Integral Calculus</b>: Riemann Integration, integration by parts, gaussian integrals
+<ul> <li>
+     <a href="lecture_pdf/integration.pdf">Lecture PDF</a>, 
+     <a href="lecture_pdf/integration_prn.pdf">Printable PDF</a>, 
+     <a href="lecture_pdf/integration_prn_4.pdf">(4 per page)</a>
+     <a href="lecture_pdf/integration_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+
+
+</HTML>
