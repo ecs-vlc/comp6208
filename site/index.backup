@@ -13,13 +13,13 @@
             text-align: center;
         }
         header {
-            background: url('ml-banner.jpg') no-repeat center center/cover;
-            color: white;
+            background: url('ml-banner.png') no-repeat center center/cover;
+            color: blue;
             padding: 40px 20px;
-            font-size: 2em;
+            font-size: 5em;
         }
         .container {
-            width: 80%;
+            width: 95%;
             margin: auto;
             background: white;
             padding: 20px;
@@ -27,10 +27,14 @@
             border-radius: 10px;
             margin-top: 20px;
         }
-        h1, h2 {
+        h1 {
             color: #333;
         }
-        ol {
+        h2 {
+	    text-align: left;
+            color: #333;
+        }
+        ol, ul {
             text-align: left;
             margin-left: 20px;
         }
@@ -53,8 +57,10 @@
     <header>
         COMP6208 Advanced Machine Learning
     </header>
+
     <div class="container">
-        <h2>Lecture Timetable</h2>
+      <h1>COMP6208 Advanced Machine Learning</h1>
+      <p>Taught by <a href="mailto: apb1@soton.ac.uk">Adam Pr&uuml;gel-Bennett</a>        <h2>Lecture Timetable 2024-25</h2>
         <ol>
             <li>11:00-11:45 Tuesday, Building 35 room 1005</li>
             <li>16:00-16:45 Tuesday, Building 44 room 1041 (L/T A)</li>
@@ -76,7 +82,7 @@
         </ul>
     </div>
     <footer>
-        &copy; 2025 Advanced Machine Learning | Designed for COMP6208
+        &copy;ECS 2025 Advanced Machine Learning | Designed for COMP6208
     </footer>
 </body>
 </html>
