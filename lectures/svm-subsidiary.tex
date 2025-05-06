@@ -1,0 +1,465 @@
+% Created 2024-02-09 Fri 16:23
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 17: Support Vector Machines}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Keywords}
+\label{sec:org370e376}
+\begin{itemize}
+\item Support Vector Machines, maximum margins
+\end{itemize}
+
+\section{Main Points}
+\label{sec:org43b8030}
+
+\subsection{Overview}
+\label{sec:org2514079}
+\begin{itemize}
+\item Support vector machines are one of the most successful machine
+learning techniques when dealing with small data sets
+\begin{itemize}
+\item They perform binary classification (you need many SVMs to do
+multi-class classification)
+\item There are support vector machines for regression SVR (but I'm
+not sure their performance dominates other techniques)
+\end{itemize}
+\item They are basically a perceptron that regularises itself by
+choosing the maximum margin separating plane
+\item Of course perceptrons only work with linear separable data
+\begin{itemize}
+\item SVMs overcome this limitations in two ways
+\begin{enumerate}
+\item It often prejects the data into a high dimensional extended
+feature space making it more likely that the data is linear separable
+\begin{itemize}
+\item In the extended feature space the features will usually be
+non-linear functions of the original features, so we can
+separate data in the extended feature space that isn't
+necessarily linear separable in the original feature space
+\end{itemize}
+\item It tolerates some errors using slack variables
+\begin{itemize}
+\item We need to tune a hyper-parameter (usually called \(C\)) to
+decide how much slack we want to tolerate
+\end{itemize}
+\end{enumerate}
+\end{itemize}
+\item SVMs can work with a huge number of features by solving the
+problem in the dual space
+\begin{itemize}
+\item The dual problem depends on the number of constraints
+\item There is one constraint for each pattern which states that the
+pattern should be on or outside a margin
+\item The dual problem only depends on the inner (dot) product
+between vectors in the (extended) feature space
+\item As positive semi-definite kernels can be represented as inner
+product between vectors in an extended feature space (which are
+the eigen-functions of the kernel) we often never need to
+explicitly compute the vectors in the extended feature space
+\end{itemize}
+\end{itemize}
+
+\subsection{Maximum Margins}
+\label{sec:org356a29d}
+\begin{itemize}
+\item We consider data \(\mathcal{D} = \{(\bm{x}_k,y_k) | k=1,2,\ldots,
+     m\}\) with \(\bm{x}_k \in \mathbb{R}^p\) and \(y_k\in\{-1,1\}\)
+\item We define a dividing hyper-plane by its orthogonal vector
+\(\bm{w}\) and a threshold \(b\) saying how far from the origin it is
+\item The gap between the hyper-plane and a data point \((\bm{x}_k,y_k)\)
+is given by
+$$ d_k = y_k \left(\frac{ \bm{w}^\tr \bm{x}_k}{\|\bm{w}\|} -b \right) $$
+\begin{itemize}
+\item Note that \(y_k\) ensures the positive class is on one side of
+the dividing plane and the negative class on the other
+\end{itemize}
+\item We want to constrain these gaps to be greater than or equal to a margin
+\(\Delta\)
+$$ y_k \left(\frac{ \bm{w}^\tr \bm{x}_k}{\|\bm{w}\|} -b \right)
+     \geq \Delta $$
+\item We can divide through by the margin size \(\Delta\) giving
+$$ y_k \left(\ \bar{\bm{w}}^\tr \bm{x}_k - \bar{b} \right) \geq 1 $$
+\begin{itemize}
+\item where \(\bar{\bm{w}} = \bm{w}/(\Delta\,\|\bm{w}\|)\) and \(\bar{b}
+       = b/\Delta\)
+\end{itemize}
+\item We note that
+$$ \frac{1}{2} \| \bar{\bm{w}}\|^2 = \frac{1}{2\,\Delta^2} $$
+\begin{itemize}
+\item thus if we minimise \(\| \bar{\bm{w}}\|^2/2\) subject to the
+constraint this is equivalent to maximising \(\Delta\)
+\item the factor of a half is just for convenience
+\item we minimise \(\| \bar{\bm{w}}\|^2\) rather than \(\| \bar{\bm{w}}\|\)
+again for convenience
+\item we will just drop the bar notation (i.e. we talk about \(\bm{w}\) and \(b\)
+rather than \(\bar{\bm{w}}\) and \(\bar{b}\)): after all what's in
+a name? (More seriously it has the same optimum whatever we
+call it)
+\end{itemize}
+\item \textbf{Soft Margins}
+\begin{itemize}
+\item So far we have constrained all the data points to lie outside
+the margin (this is known as \emph{hard margins})
+\item We can instead allow some data points to lie within the margin
+(or even be misclassified)
+\begin{itemize}
+\item This is known as a \emph{soft margin} SVM
+\end{itemize}
+\item We do this by introducing slack variables \(s_k\) so that our
+constraints become
+$$ y_k \left(\frac{ \bm{w}^\tr \bm{x}_k}{\|\bm{w}\|} -b \right)
+       \geq 1 - s_k $$
+(I've dropped the bars for simplicity)
+\item We punish the slack variables by adding \(C\,\sum\limits_{k=1}^m
+       s_k\) to the objective function
+\item We also constrain the slack variables so that \(s_k\geq0\) (so we
+don't get a reward if \(s_k<0\))
+\end{itemize}
+\item Optimisation problem
+\begin{itemize}
+\item Our optimisation problem becomes 
+$$ \min_{\bm{w},b,\bm{s}} \quad \frac{ \|\bm{w}\|^2 }{2} + C \, \sum_{k=1}^m s_k $$
+ subject to
+ $$  y_k \left(\frac{ \bm{w}^\tr \bm{x}_k}{\|\bm{w}\|} -b \right)
+       \geq 1 - s_k  \quad \text{and} \quad s_k\geq0 $$
+for \(k=1,\,2,\,\ldots,m\)
+\item We can write this as a Lagrange problem
+$$  \min_{\bm{w},b,\bm{s}} \; \max_{\bm{\alpha},\bm{\beta}} \quad
+       \mathcal{L}(\bm{w}, b, \bm{s},\bm{\alpha}, \bm{\beta}) $$
+where
+$$ \mathcal{L}(\bm{w}, b, \bm{s},\bm{\alpha}, \bm{\beta}) =
+       \frac{\|\bm{w}\|^2}{2} + C \, \sum_{k=1}^m s_k -  \sum_{k=0}^m
+       \alpha_k \left(y_k \left( \bm{w}^\tr \bm{x}_k - b \right) - 1+
+       s_k \right) - \sum_{k=0}^m         \beta_k \, s_k $$
+\begin{itemize}
+\item \(\alpha_k\) and \(\beta_k\) are Lagrange multipliers
+\begin{itemize}
+\item \(\alpha_k\) ensures the margin condition
+\item \(\beta_k\) ensures the non-negativity of the slack variables
+\end{itemize}
+\item As they enforce inequality constraints we require they are
+non-negative
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Extended Feature Space}
+\label{sec:org8333e49}
+\begin{itemize}
+\item To help linear separability we can map our inputs to a
+high-dimensional feature space
+$$ \bm{x} \rightarrow \bm{\phi}(\bm{x}) $$
+\item Note in the slides I wrote this as \(\vec{\phi}(\bm{x})\) to
+make it clear that this is a different feature space (I won't
+do it here as it is a slightly ugly way of writing vectors)
+\item Note this is a function of the original feature vector
+meaning that if I change \(\bm{x}\) I will get a different
+vector \(\bm{\phi}(\bm{x})\)
+\item Nevertheless \(\bm{\phi}(\bm{x})\) is just a \(p'\) dimensional
+vector
+\item We call the space of \(\bm{\phi}(\bm{x})\) the \emph{extended
+feature space}
+\item We can define this extended feature mapping explicitly (e.g. we
+might decide that \(\phi_1(\bm{x}) = x_1^2\), \(\phi_2(\bm{x}) =
+       x_1\,x_2\), etc.)
+\item More often this feature mapping is defined implicitly through
+a kernel function (more of that later)
+\item We usually choose the dimensionality, \(p'\), of the extended feature
+space to be much larger that that of the original feature space
+\item Usually we would be scared of this because it can lead to over-fitting
+\item However, because of choosing the maximal-margin hyper-plane
+this regularises the problem so strongly that we get good
+generalisation despite working in an enormous dimensional space
+\item The Lagrange problem in this extended feature space is
+$$ \mathcal{L}(\bm{w}, b, \bm{s},\bm{\alpha}, \bm{\beta}) =
+       \frac{\|\bm{w}\|^2}{2} + C \, \sum_{k=1}^m s_k -  \sum_{k=0}^m
+       \alpha_k \left( y_k \left( \bm{w}^\tr \bm{\phi}(\bm{x}_k) - b
+       \right) - 1 + s_k \right) - \sum_{k=0}^m   \beta_k \, s_k $$
+\begin{itemize}
+\item Note that the weight vector, \(\bm{w}\), is now in the extended weight space
+\end{itemize}
+\end{itemize}
+
+\subsection{Dual Problem}
+\label{sec:org86b360f}
+\begin{itemize}
+\item To obtain the dual problem we compute the minimum of the
+Lagrangian with respect to \(\bm{w}\), \(b\) and \(\bm{s}\)
+\begin{itemize}
+\item Weight minimisation
+$$ \grad_{\bm{x}} \mathcal{L} = \bm{w} - \sum_{k=1}^m
+       \alpha_k\,y_k\,\bm{\phi}(\bm{x}_k) = 0 $$
+\begin{itemize}
+\item So that \(\bm{w} = \sum\limits_{k=1}^m \alpha_k\,y_k\,\bm{\phi}(\bm{x}_k)\)
+\end{itemize}
+\item Threshold minimisation
+$$ \frac{\partial \mathcal{L}}{\partial b} = -\sum_{k=1}^m
+       \alpha_k\,y_k = 0 $$
+\begin{itemize}
+\item This gives us a global constraint on the Lagrange multipliers \(\alpha_k\)
+\end{itemize}
+\item Slack variable minimisation
+$$ \frac{\partial \mathcal{L}}{\partial s_k} = C - \alpha_k
+       -\beta_k = 0 $$
+\begin{itemize}
+\item Thus \(\alpha_k = C - \beta_k\)
+\item When substituting back into the Lagrangian all the terms
+proportional to \(s_k\) cancel
+\item But \(\beta_m\geq0\) so this implies \(\alpha_k \leq C\) (recall
+that \(\alpha_k\geq0\) from the KKT condition)
+\end{itemize}
+\end{itemize}
+\item Substituting the optimal values of \(\bm{w}\), \(b\) and \(\bm{S}\)
+into the Lagrangian we obtain the dual problem
+$$ \max_{\bm{\alpha}}\;- \frac{1}{2} \sum_{k,l=0}^m
+     \alpha_k\,\alpha_l \,
+     y_k\,y_l\, \bm{\phi}^\tr(\bm{x}_k) \, \bm{\phi}(\bm{x}_l) +
+     \sum_{k=0}^m \alpha_k$$
+\hspace{6cm} \emph{subject to the conditions}
+$$ \sum_{k=1}^m \alpha_k\, y_k=0, \quad \quad \forall_k  \; 0 \geq
+     \alpha_k\geq C $$
+\begin{itemize}
+\item Note that a large number of terms vanished (you really need to
+go through this carefully to see that this happens)
+\item Amazingly adding slack variables is equivalent to preventing
+\(\alpha_k\) becoming larger than \(C\)
+\item the dual problem is another quadratic programming problem but
+involves the \(m\) Lagrange multipliers \(\alpha_k\) rather than
+the \(p'\) weights
+\item importantly the dual problem depends only on
+\(\bm{\phi}(\bm{x}_k)\) through the inner product
+\(\bm{\phi}^\tr(\bm{x}_k) \, \bm{\phi}(\bm{x}_l)\)
+\end{itemize}
+\end{itemize}
+
+\subsection{Working in the extended feature space}
+\label{sec:org319ddd7}
+\begin{itemize}
+\item If we work in the original feature space then the dual problem
+depends on the inner (dot) product \(\bm{x}_k^\tr \bm{x}_l\)
+\begin{itemize}
+\item this is known as a linear SVM
+\item quite often a linear SVM gives the best performance
+\item sometimes it will pay to solve the primal problem rather than
+dual problem
+\item however we can work with very high dimensional feature vectors
+\begin{itemize}
+\item this is useful when we work with text where out input vectors
+are naturally high dimensional
+\item In this case we would want to solve the dual problem
+\end{itemize}
+\end{itemize}
+\item We can explicitly define our extended feature vectors
+\begin{itemize}
+\item this has the disadvantage that they could be expensive to
+compute, but for some applications there may be smart ways of
+doing this
+\end{itemize}
+\item \textbf{Kernel Trick}
+\begin{itemize}
+\item There is however a really nice trick
+\item Any positive definite kernel, \(K(\bm{x},\bm{y})\), can be
+decomposed as
+$$ K(\bm{x},\bm{y}) =\bm{\phi}^\tr(\bm{x}) \, \bm{\phi}(\bm{y}) $$ 
+(we will talk much more about this in the next lecture)
+\item obviously the functions \(\phi_i(\bm{x})\) that form the elements
+of the vector \(\bm{\phi}(\bm{x})\) depend on the kernel we choose
+\item However, as the dual problem only depends on the inner product
+\(\bm{\phi}^\tr(\bm{x}) \, \bm{\phi}(\bm{y})\) if we choose these
+so that \(\bm{\phi}^\tr(\bm{x}) \, \bm{\phi}(\bm{y}) =
+       K(\bm{x},\bm{y})\) then we never have to explicitly compute
+\(\bm{\phi}(\bm{x})\)
+\item Our dual problem in this case is
+$$ \max_{\bm{\alpha}}\;- \frac{1}{2} \sum_{k,l=0}^m
+        \alpha_k\,\alpha_l \,
+          y_k\,y_l\, K(\bm{x}_k,\bm{x}_l) +
+           \sum_{k=0}^m \alpha_k$$
+\item In using an SVM we have to determine which side of the dividing
+plane a new data point, \(\bm{x}\), would lie
+\begin{itemize}
+\item Our prediction would be
+$$ \mathrm{sgn}\!\left(\bm{w}^\tr \bm{\phi}(\bm{x}) -b\right) $$
+\begin{itemize}
+\item the function \(\mathrm{sgn}(\cdot)\) outputs \(\pm1\) depending on the
+sign of the argument
+\end{itemize}
+\item But our optimal weight vector is given by \(\bm{w} =
+         \sum\limits_{k=1}^m \alpha_k\,y_k\,\bm{\phi}(\bm{x}_k)\)
+\item Thus our prediction will be
+$$ \mathrm{sgn}\!\left(  \sum_{k=1}^m
+         \alpha_k\,y_k\,\bm{\phi}^\tr(\bm{x}_k)\,\bm{\phi}(\bm{x})
+         -b\right)  =  \mathrm{sgn}\!\left(  \sum_{k=1}^m
+         \alpha_k\,y_k\,K(\bm{x}_k,\bm{x})-b\right)  $$
+\item Thus we don't need to computer the weight or the extended
+feature vectors
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Practical Consideration}
+\label{sec:org352fd14}
+\begin{itemize}
+\item To get SVMs to work in practice requires a lot of tuning
+\item Firstly you need to normalise the inputs
+\item You might need to \textbf{balance} you data set
+\begin{itemize}
+\item SVMs perform poorly on problems where the training set has many
+more examples of one class than the other
+\item You can balance the data set by ignoring examples from the
+large class or
+\item Increasing the size of minority class by duplicating examples
+\item Sometimes you can use data augmentation on the minority class
+\item This is only a problem where the data set is strongly unbalanced
+\end{itemize}
+\item You need to choose \(C\) (this can vary by orders of magnitudes)
+\begin{itemize}
+\item Typically found by exhaustive search start at \(2^{-5}\) and
+doubling until you reach \(2^{15}\)
+\item You decide on what to use by testing on a validation set
+\end{itemize}
+\item You also have to choose the right kernel
+\begin{itemize}
+\item This could be no kernel (linear SVM)
+\item A polynomial kernel (you have to try different degrees)
+\item A radial basis kernel
+\item Sometimes you use a special designed kernel for the problem
+\item Kernels also come with hyper-parameters (often called \(\gamma\))
+which you also have to tune
+\end{itemize}
+\item It is a lot of work but for many problems (particularly with
+small training set) it often leads to state-of-the-art performance
+\item \textbf{Multi-Class Classification}
+\begin{itemize}
+\item Natively SVMs only perform binary classification
+\item If you have multiple classes you need multiple SVMs
+\item People use two strategies
+\begin{itemize}
+\item \emph{One-versus-all}: for each class train a separate SVM
+using all other classes as negative examples (but see note on
+balancing)
+\item \emph{All-pairs}:  Train a set of SVM between all pairs of classes
+(this is obviously expensive when you have large classes)
+\end{itemize}
+\item You then have to get your SVMs to vote in some way to determine
+the true class
+\end{itemize}
+\end{itemize}
+
+
+
+\section{Experiments}
+\label{sec:org759da99}
+
+\subsection{SVM in Practice}
+\label{sec:orge676d83}
+\begin{itemize}
+\item SVMs are hard to code (they need a quadratic programming solver
+which are complicate)
+\item However, there a lots of good implementations out there so have a go
+\item Stolen from the web\ldots
+\end{itemize}
+
+\begin{minted}[]{python}
+#Import scikit-learn dataset library
+from sklearn import datasets
+
+#Load dataset
+cancer = datasets.load_breast_cancer()
+# print the names of the 13 features
+print("Features: ", cancer.feature_names)
+
+# print the label type of cancer('malignant' 'benign')
+print("Labels: ", cancer.target_names)
+
+# print data(feature)shape
+cancer.data.shape
+
+# Import train_test_split function
+from sklearn.model_selection import train_test_split
+
+# Split dataset into training set and test set
+X_train, X_test, y_train, y_test  =
+	  train_test_split(cancer.data, cancer.target, test_size=0.3,random_state=109) 
+				# 70% training and 30% test
+
+#Import svm model
+from sklearn import svm
+
+#Create a svm Classifier
+clf = svm.SVC(kernel='linear') # Linear Kernel
+
+#Train the model using the training sets
+clf.fit(X_train, y_train)
+
+#Predict the response for test dataset
+y_pred = clf.predict(X_test)
+
+#Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
+
+# Model Accuracy: how often is the classifier correct?
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+
+# Model Precision: what percentage of positive tuples are labeled as such?
+print("Precision:",metrics.precision_score(y_test, y_pred))
+
+# Model Recall: what percentage of positive tuples are labelled as such?
+print("Recall:",metrics.recall_score(y_test, y_pred))
+
+
+\end{minted}
+\end{document}

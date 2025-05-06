@@ -1,0 +1,220 @@
+% Created 2024-01-19 Fri 14:01
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 5: Ensemble Methods}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Keywords}
+\label{sec:org83d2245}
+\begin{itemize}
+\item Decision Trees, Averaging, Bagging
+\end{itemize}
+
+\section{Main Points}
+\label{sec:org0bbc1a3}
+
+\subsection{Decision Trees}
+\label{sec:org6c88125}
+\begin{itemize}
+\item Decision trees are binary tree where a set of data is
+partitioned into two at each node of the tree
+\item Rule for partition depends on a single feature
+\item Trees are grown greedily
+\item All possible rules are tried to find the one that maximise the
+purity of the leaves
+\item Gini, entropy or variance used to measure purity
+\item Decision trees can handle categorical or numerical data
+\item They can handle missing data
+\begin{itemize}
+\item after deciding on a new rule (ignoring missing data), a
+rule to send the missing data right or left is selected to
+maximise purity
+\end{itemize}
+\item Decision trees are useful for understanding new data sets
+\begin{itemize}
+\item By examining the rules at the top of the tree we get to see
+the most important variables
+\end{itemize}
+\item Decisions trees are often not competitive
+\begin{itemize}
+\item they can have high bias because they can only split the data
+on single variables (limits their expressiveness)
+\item they can also have high variance because a small change to the
+data set that changes a rule at the top of the tree can lead
+to very different predictions
+\end{itemize}
+\end{itemize}
+
+\subsection{Ensembling}
+\label{sec:orge81e15e}
+\begin{itemize}
+\item This is used to reduces variance by averaging many different machines
+\item This only works if the machines make weakly correlated classifications
+\item We ensemble machines by coming to a consensus
+\begin{itemize}
+\item Vote on a class in classification
+\item Average for regression
+\end{itemize}
+\end{itemize}
+\subsubsection{Estimating the Mean}
+\label{sec:orgeb7693f}
+\begin{itemize}
+\item Suppose we want to estimate the mean of a distribution, \(f_{X}(x)\) from
+random samples of the distribution.  We assume the distribution
+has mean \(\mu = \av{X}\) and variance \(\sigma^2 = \av{(X-\mu)^2}\)
+\item Our estimated mean is
+\[ \hat{\mu} = \frac{1}{n} \sum_{i=1}^n X_i \]
+where \(X_i\sim f_{X}(x)\) (i.e. the \(X_i\) are drawn at random
+form the distribution)
+\item In expectation
+\[ \av{\hat{\mu}} = \frac{1}{n} \sum_{i=1}^n \av{X_i} = \frac{1}{n} \sum_{i=1}^n \mu = \mu\]
+\item However, each \(\hat{\mu}\) will differ from the true \(\mu\) (some
+will e greater and some less than \(\mu\))
+\item We want to measure the variance in \(\hat{\mu}-\mu\)
+\[ \hat{\mu}-\mu = \left( \frac{1}{n} \sum_{i=1}^n X_i \right) -\mu = \frac{1}{n} \sum_{i=1}^n (X_i-\mu)  \]
+\item Thus
+\[ \left( \hat{\mu}-\mu \right)^2 = \left(\frac{1}{n} \sum_{i=1}^n
+      (X_i-\mu)\right)^{2} = \left(\frac{1}{n} \sum_{i=1}^n
+      (X_i-\mu)\right)\left(\frac{1}{n} \sum_{j=1}^n
+      (X_j-\mu)\right) \]
+\begin{itemize}
+\item Note that \(i\) and \(j\) are just dummy indices (it doesn't
+matter what they are called but they are different)
+\end{itemize}
+\item Or
+\[ \left( \hat{\mu}-\mu \right)^2 = \frac{1}{n^2} \sum_{i=1}^n
+          \sum_{j=1}^n (X_i-\mu) (X_j-\mu) \]
+\begin{itemize}
+\item Now there are times when \(i=j\) and times when this isn't true
+ so we separate these two out
+\[ \left( \hat{\mu}-\mu \right)^2 = \frac{1}{n^2} \sum_{i=1}^n
+         (X_i-\mu)^{2} + \sum_{i=1}^n \sum_{j=1\above j\neq i}^n (X_i-\mu) (X_j-\mu)\]
+\end{itemize}
+\item Taking expectations
+\[ \av{\left( \hat{\mu}-\mu \right)^2} = \frac{1}{n^2} \sum_{i=1}^n
+         \av{(X_i-\mu)^{2}} + \sum_{i=1}^n \sum_{j=1\above j\neq i}^n \av{(X_i-\mu) (X_j-\mu)}\]
+\begin{itemize}
+\item where I have used \(\av{A + B} = \av{A} + \av{B}\) (so that
+\(\av{\sum_{i} A_i} = \sum_{i} \av{A_i})\)
+\end{itemize}
+\item Now because \(X_i\) and \(X_j\) are by assumption independently
+chosen 
+\[ \av{(X_i-\mu) (X_j-\mu)} =  \av{X_i-\mu}\,  \av{X_j-\mu} \]
+but \(\av{X_i-\mu} = \av{X_i}-\mu = \mu -\mu = 0\)
+so
+\[ \av{(X_i-\mu) (X_j-\mu)} =  0\]
+and
+ \[ \av{\left( \hat{\mu}-\mu \right)^2} = \frac{1}{n^2} \sum_{i=1}^n
+         \av{(X_i-\mu)^{2}} = \frac{1}{n^2} \sum_{i=1}^n \sigma^2 = \frac{\sigma^{2}}{n}\]
+\end{itemize}
+\subsubsection{Bagging}
+\label{sec:org5f3f3cc}
+\begin{itemize}
+\item Uses bootstrap aggregation
+\begin{itemize}
+\item that is we sample the training set with replacement to obtain
+slightly different datasets
+\end{itemize}
+\item Random Forest
+\begin{itemize}
+\item Uses decision trees with bootstrap aggregation
+\item But also use different random subsets of features
+\item Often gives state-of-the-art performance
+\end{itemize}
+\end{itemize}
+
+\section{Exercises}
+\label{sec:orgd24ed90}
+
+\subsection{Compute expected error in mean for correlated variables}
+\label{sec:orgb3ec70a}
+\begin{itemize}
+\item We look at estimating the mean by sampling \(n\) random variables
+\begin{equation*}
+\hat{\mu} = \frac{1}{n} \sum_{i=1}^n X_i
+\end{equation*}
+\item In expectation \(\mathbb{E}[X_i]=\mu\)
+\item Thus in expectation \(\mathbb{E}[\hat{\mu}]=\mu\)
+\item But there will typically be fluctuations from the mean which we can compute using
+\begin{equation*}
+\sigma^2_{\hat{\mu}} = \mathbb{E}\left[ \left(\strut \hat{\mu} - \mu \right)^2 \right]
+\end{equation*}
+\item \textbf{Compute this} using
+\begin{align*}
+\mathbb{E}[(X_i-\mu)^2] &= \sigma^2 & 
+   \mathbb{E}[(X_i-\mu)\,(X_j-\mu)] &= \rho\,\sigma^2
+\end{align*}
+\item Answer given in lecture notes
+\item Note that the estimated error in the mean is \(\sigma_{\hat{\mu}\) (this is
+what you use when you compute error-bars)
+\end{itemize}
+
+\section{Experiments}
+\label{sec:org25a6ddb}
+
+\subsection{Visualise a decision tree}
+\label{sec:org196b1cf}
+
+\begin{minted}[]{python}
+from sklearn.datasets import load_iris
+from sklearn import tree
+X, y = load_iris(return_X_y=True)
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, y)
+
+tree.plot_tree(clf.fit(iris.data, iris.target))
+\end{minted}
+\end{document}

@@ -1,0 +1,228 @@
+% Created 2021-01-28 Thu 17:14
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 3: Project}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+
+
+\section{Keywords}
+\label{sec:org4013321}
+\begin{itemize}
+\item Details, Ideas, Research Methods
+\end{itemize}
+
+\section{Main Points}
+\label{sec:org1b48498}
+
+\subsection{Project}
+\label{sec:org1ea62cc}
+\begin{itemize}
+\item You are going to projects in groups of 3-5
+\item This is worth 40\% of the course
+\item You should submit two report of no more than 4 pages
+\begin{enumerate}
+\item A description of your exploration of the data
+\item A description of running machine learning
+\end{enumerate}
+\item A good place for finding projects is \texttt{//www.kaggle.com/}
+\end{itemize}
+
+\subsection{How to do a machine learning project}
+\label{sec:orgd65e395}
+
+This is taken from the course text \emph{Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems} by Aurélien Géron
+
+\begin{enumerate}
+\item Frame the Problem and Look at the Big Picture
+\begin{enumerate}
+\item Define the objective in business terms
+\item How will your solution be used?
+\item What are the current solutions/workarounds (if any)?
+\item How should you frame this problem (supervised/unsupervised, online/offline, etc.)?
+\item How should performance be measured?
+\item Is the performance measure aligned with the business objective?
+\item What would be the minimum performance needed to reach the business objective?
+\item What are comparable problems? Can you reuse experience or tools?
+\item Is human expertise available?
+\item How would you solve the problem manually?
+\item List the assumptions you (or others) have made so far
+\item Verify assumptions if possible
+\end{enumerate}
+\item Get the Data
+\begin{enumerate}
+\item List the data you need and how much you need
+\item Find and document where you can get that data
+\item Check how much space it will take
+\item Check legal obligations, and get authorization if necessary
+\item Get access authorisations
+\item Create a workspace (with enough storage space)
+\item Get the data
+\item Convert the data to a format you can easily manipulate (without changing the data itself)
+\item Ensure sensitive information is deleted or protected (e.g., anonymized)
+\item Check the size and type of data (time series, sample, geographical, etc.)
+\item Sample a test set, put it aside, and never look at it (no data snooping!)
+\end{enumerate}
+\item Explore the Data\\
+\textbf{Note: try to get insights from a field expert for these steps}
+\begin{enumerate}
+\item Create a copy of the data for exploration (sampling it down to a manageable size if necessary)
+\item Create a Jupyter notebook to keep a record of your data exploration
+\item Study each attribute and its characteristics:
+\begin{itemize}
+\item Name
+\item Type (categorical, int/float, bounded/unbounded, text, structured, etc)
+\item Number of missing values
+\item Noisiness and type of noise (stochastic, outliers, rounding errors, etc.)
+\item Possibly useful for the task?
+\item ype of distribution (Gaussian, uniform, logarithmic, etc.)
+\end{itemize}
+\item For supervised learning tasks, identify the target attribute(s)
+\item Visualise the data
+\item Study the correlations between attributes
+\item Study how you would solve the problem manually
+\item Identify the promising transformations you may want to apply
+\item Identify extra data that would be useful
+\item Document what you have learned
+\end{enumerate}
+\item Prepare the Data
+\begin{enumerate}
+\item Notes:
+\begin{itemize}
+\item Work on copies of the data (keep the original dataset intact)
+\item Write functions for all data transformations you apply, for five reasons:
+∗ So you can easily prepare the data the next time you get a fresh dataset
+∗ So you can apply these transformations in future project
+∗ To clean and prepare the test set
+∗ To clean and prepare new data instances once your solution is live
+∗ To make it easy to treat your preparation choices as hyperparameters
+\end{itemize}
+
+\item Data cleaning
+\begin{itemize}
+\item Fix or remove outliers (optional)
+\item Fill in missing values (e.g., with zero, mean, median. . . ) or drop their rows (or columns)
+\end{itemize}
+\item Feature selection (optional):
+\begin{itemize}
+\item Drop the attributes that provide no useful information for the task
+\end{itemize}
+\item Feature engineering, where appropriate:
+\begin{itemize}
+\item Discretise continuous features
+\item Decompose features (e.g., categorical, date/time, etc.)
+\item Add promising transformations of features (e.g., \(\log(x)\), etc.)
+\item Aggregate features into promising new features
+\end{itemize}
+\item Feature scaling: standardise or normalise features
+\end{enumerate}
+\item Short-List Promising Models
+\begin{enumerate}
+\item Train many quick and dirty models from different categories (e.g., linear, naive Bayes, SVM, Random Forests, neural net, etc.) using standard parameters
+\item Measure and compare their performance
+\begin{itemize}
+\item For each model, use N-fold cross-validation and compute the mean and standard deviation of the performance measure on the N folds
+\end{itemize}
+\item Analyse the most significant variables for each algorithm
+\item Analyse the types of errors the models make
+\begin{itemize}
+\item What data would a human have used to avoid these errors?
+\end{itemize}
+\item Have a quick round of feature selection and engineering
+\item Have one or two more quick iterations of the five previous steps
+\item Short-list the top three to five most promising models, preferring models that make different types of errors
+\end{enumerate}
+\item Fine-Tune the System
+Note 1: You will want to use as much data as possible for this step, especially as you move toward the end of fine-tuning
+Note 2: As always automate what you can
+\begin{enumerate}
+\item Fine-tune the hyperparameters using cross-validation
+\begin{itemize}
+\item Treat your data transformation choices as hyperparameters, especially when you are not sure about them (e.g., should I replace missing values with zero or with the median value? Or just drop the rows?)
+\item Unless there are very few hyperparameter values to explore, prefer random search over grid search. If training is very long, you may prefer a Bayesian optimisation approach
+\end{itemize}
+\item Try Ensemble methods. Combining your best models will often perform better than running them individually
+\item Once you are confident about your final model, measure its performance on the test set to estimate the generalization error
+\end{enumerate}
+\item Present Your Solution
+\begin{enumerate}
+\item Document what you have done
+\item Create a nice presentation
+\begin{itemize}
+\item Make sure you highlight the big picture first
+\end{itemize}
+\item Explain why your solution achieves the business objective
+\item Don’t forget to present interesting points you noticed along the way
+\begin{itemize}
+\item Describe what worked and what did not
+\item List your assumptions and your system’s limitations
+\end{itemize}
+\item Ensure your key findings are communicated through beautiful visualisations or easy-to-remember statements (e.g., “the median income is the number-one predictor of housing prices”)
+\end{enumerate}
+\item Launch
+\begin{enumerate}
+\item Get your solution ready for production (plug into production data inputs, write unit tests, etc.)
+
+\item Write monitoring code to check your system’s live performance at regular intervals and trigger alerts when it drops
+\begin{itemize}
+\item Beware of slow degradation too: models tend to “rot” as data evolves
+\item Measuring performance may require a human pipeline (e.g., via a crowd-sourcing service)
+\item Also monitor your inputs’ quality (e.g., a malfunctioning sensor sending random values, or another team’s output becoming stale). This is particularly important for online learning systems
+\end{itemize}
+\item Retrain your models on a regular basis on fresh data (automate as much as possible)
+\end{enumerate}
+\end{enumerate}
+\end{document}

@@ -1,0 +1,141 @@
+#! /bin/bash
+
+
+write_video () {
+    vf="videos/$1Video.shtml"
+    cat > $vf <<EOF
+<HTML>
+<HEAD>
+<TITLE>Videos
+</TITLE>
+</HEAD>
+
+<!--#include virtual="/notes/comp6208/header.htx" -->
+
+<H1 align="center">Video for Advance Machine Learning</H1>
+
+<h3><b>$lesson</b>: $keywords</h3>
+
+<div>
+ <video width="500" controls>
+       <source src="$1.mp4" type="video/mp4">
+       Your browser does not support HTML5 video.
+    </video>
+</div>
+
+<div>
+<ul>
+     <li> <a href="../$1.pdf">Lecture PDF</a>, </li>
+     <li> <a href="../$1_prn.pdf">Printable PDF</a>, </li>
+     <li> <a href="../$1_prn_4.pdf">(4 per page)</a></li>
+     <li> <a href="../$1_prn_8.pdf">(8 per page)</a></li>
+     $2
+   </ul>
+   
+   <p>
+</div>
+<div>
+ <h4> <a
+ href=https://secure.ecs.soton.ac.uk/notes/comp6208/lectures/>Back to
+ Lecture Notes Page</a></h4>
+</div>
+<!--#include virtual="/notes/comp6208/footer.htx" -->
+
+</HTML>
+EOF
+    echo "Updating $vf"
+    scp $vf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/lectures/$vf
+    tf="videos/${f}-time"
+    date > ${tf}
+}
+
+subsidiary() {
+    if [ -f $1-subsidiary.pdf ]; then
+	if [ ! -f pdf/$1-sub-time ] || [ $1-subsidiary.pdf -nt pdf/$1-sub-time ]
+	then
+	    echo "Updating  $1-subsidiary.pdf"
+	    scp $1-subsidiary.pdf apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/lectures/$1-subsidiary.pdf
+	    date > pdf/$1-sub-time
+	fi
+    fi
+}
+
+	
+
+of=index.shtml
+files=`grep \\lecture{ lectures.tex | grep -v % | sed 's/\\\lecture{//g' | sed 's/}//g'`
+
+cat > $of <<EOF
+<HTML>
+<HEAD>
+<TITLE>Lecture Notes
+</TITLE>
+</HEAD>
+
+<!--#include virtual="/notes/comp6208/header.htx" -->
+
+<H1 align="center">Lecture Notes</H1>
+
+<h2> Notes by Adam Pr&uuml;gel-Bennett </h2>
+
+
+<ol>
+EOF
+
+
+for f in $files; do
+    lesson=`head $f.tex | grep 'lesson{' | sed 's/.lesson{//' | sed 's/}//'`
+    keywords=`head -35 $f.tex | grep 'keywords{' | sed 's/.keywords{//' | sed 's/}//'`
+    if [ -f ${f}-subsidiary.pdf ] && [ ! -f pdf/${f}-sub-time ]
+    then
+	newSubsidiaryFile=1
+    else
+	newSubsidiaryFile=0
+    fi
+    subsidiary ${f}
+    if [ -f ${f}-subsidiary.pdf ]; then
+	sub="<li> <a href="/notes/comp6208/lectures/${f}-subsidiary.pdf">Subsidiary notes on lecture</a></li>"
+    else
+	subs=""
+    fi
+    echo "<li><b>$lesson</b>: $keywords" >> $of
+    echo "<ul> <li>"  >> $of
+    if [ -f videos/${f}.mp4 ]
+    then
+	vf="videos/${f}Video.shtml"
+	tf="videos/${f}-time"
+	if [ ! -f ${tf} ] || [ ${vf} -nt ${tf} ]; then
+	    videoUpdated=1
+	else
+	    videoUpdated=0
+	fi
+	if [ $videoUpdated -eq 1 ] || [ $newSubsidiaryFile -eq 1 ]
+	then
+	    echo "writing video file ${f} ${sub}"
+	    write_video ${f} "${sub}"
+	fi
+	echo "<a href=\"${vf}\">Video</a>," >> $of
+    fi
+    cat >> $of <<EOF
+     <a href="${f}.pdf">Lecture PDF</a>, 
+     <a href="${f}_prn.pdf">Printable PDF</a>, 
+     <a href="${f}_prn_4.pdf">(4 per page)</a>
+     <a href="${f}_prn_8.pdf">(8 per page)</a></li>
+   </ul>
+EOF
+    if [ -f ./${f}-subsidiary.pdf ]; then
+	echo ${f}-subsidiary.pdf
+ 	echo "<ul> $sub  </ul>" >> ${of}
+    fi
+    if [ -f src/${f}.ipynb ]; then
+	echo "<ul> <li> <a href=\"$f.ipynb\">Juputer Notebook</a></ul>" >> ${of}
+    fi
+done
+
+cat >> $of <<EOF
+
+<!--#include virtual="/notes/comp6208/footer.htx" -->
+
+</HTML>
+EOF
+scp index.shtml apb1@stafflogin.ecs.soton.ac.uk:/notes/comp6208/lectures/index.shtml

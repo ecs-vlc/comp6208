@@ -1,0 +1,193 @@
+#+TITLE: Advanced Machine Learning Subsidary Notes
+#+SUBTITLE: Lecture 5: Vector Spaces
+
+
+
+* Keywords
+  * Vectors, vector spaces, operators
+
+* Main Points
+
+** Vector Spaces
+   * Any set of objects with addition between members of the set and
+     scalar multiplication forms a vector space if they satisfies 8 axioms
+   * Most of these axioms arise naturally if addition and scale multiplication
+     behave normally
+   * The only additional axiom is closure
+   * Normal vectors, matrices and functions all form vector spaces
+
+** Distances
+   * A /proper distance/ or /metric/ between objects in a vector space
+     satisfies 4 conditions
+     1. $d(\bm{x},\bm{y})\geq0$ (non-negativity)
+     2. $d(\bm{x},\bm{y}) = 0$ if and only if $\bm{x}=\bm{y}$ (identity of indiscernibles)
+     3. $d(\bm{x},\bm{y}) = d(\bm{y},\bm{x})$ (symmetry)
+     4. $d(\bm{x},\bm{y}) \leq d(\bm{x},\bm{z}) + d(\bm{z},\bm{y})$ (triangular inequality)
+   * You can define different distances for the same set of objects
+   * Often we use /pseudo-metrics/ that breaks one or other of the conditions
+
+** Norms
+   * Norms provide a measure of the size of vector
+   * They satisfy three conditions
+     1. $\| \bm{v} \| >0$ if $\bm{v}\neq\bm{0}$ (non-negativity)
+     2. $\| a\,\bm{v} \| = a \| \bm{v} \|$ (linearity)
+     3. $\| \bm{u} + \bm{v} \| \leq \| \bm{u} \| + \| \bm{v} \|$  (triangular inequality)
+   * Again if not all of these conditions are true we have /pseudo-norms/
+   * Norms provide a metric $d(\bm{x}, \bm{y}) = \|\bm{x}-\bm{y}\|$
+   * We will meet norms very often in this course
+   * *Vector Norms*
+     * There are a large number of norms for normal vectors that people use
+       1. Euclidean or 2-norm: $\| \bm{v} \|_2 = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}$
+       2. \(p\)-norm: $\| \bm{v} \|_p = \left(\sum_{i=1}^n | v_i |^p \right)^{1/p}$
+       3. 1-norm: $\| \bm{v} \|_1 &= \sum\limits_{i=1}^n | v_i |$
+       4. \(\infty\)-norm or max-norm: $\| \bm{v} \|_{\infty} &= \max_i |v_i|$
+     * Note the 1-norm, 2-norm and \(\infty\)-norm are all \(p\)-norms with different $p$
+     * The 0-norm counts the number of non-zero components (it is a
+       pseudo-norm as it is not linear)
+   * *Matrix Norms*
+     * Matrices also have norm
+       1. The Frobenius norm is \(\| \mat{A} \|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n |A_{ij}|^2}\)
+       2. Also have 1-norm, max-norm, Hilbert-norm (the maximum absolute eigenvalue), nuclear-norm, etc.
+     * Note that the determinant is not a norm because it can be negative and is not linear
+     * Many of the commonly used matrix norms satisfy
+	\begin{align*}
+           \| \mat{A}\,\mat{B} \| \leq \| \mat{A} \| \times \| \mat{B} \|\pause
+	\end{align*}
+     * This is really useful because we can quickly bound norms of products of matrices
+     * Many matrix and vector norms are compatible
+	\begin{align*}
+            \| \mat{M} \bm{v} \|_b \leq \| \mat{M} \|_a \times \| \bm{v} \|_b
+	 \end{align*}
+     * E.g. Frobenius and Euclidean norms are compatible
+     * One of the main uses of matrix norms is to understand by how much it
+       can potentially increase the size of a vector
+   * *Function Norms*
+     * The most common function norms are
+       1. The \(L_2\)-norm
+	  \begin{align*}
+          \| f \|_{L_2} = \sqrt{\int_{\bm{x}\in\mathcal{R}} f^2(\bm{x}) \, \dd \bm{x}}
+          \end{align*}
+	  where $\mathcal{R}$ is the region over which the function is define
+       2. The \(L_1\)-norm
+	  \begin{align*}
+          \| f \|_{L_1} = \int_{\bm{x}\in\mathcal{R}} |f(\bm{x})| \, \dd \bm{x}
+          \end{align*}
+       3. The $\infty$ or max-norm
+	  \begin{align*}
+          \| f \|_{\infty} = \max_{\bm{x}\in\mathcal{R}} f(\bm{x})
+          \end{align*}
+     * Function norms are also used to define vector spaces
+       1. The $L_2$ vector space is the set of functions such that all 
+          functions satisfy $\| f \|_{L_2}<\infty$
+       2. The $L_1$ vector space is the set of functions such that all 
+          functions satisfy $\| f \|_{L_1}<\infty$
+     * In these vector spaces we only consider functions that measurable in
+       the sense that $\|f\|>0$ for any non-zero function
+	  
+** Inner Products
+   * For some vector spaces we can sometimes define a /inner product/
+   * Inner products are scalars associated with two elements in a vector space
+   * They are generally denoted by $\langle\bm{x},\bm{y}\rangle$
+   * For normal vectors the standard inner product is the dot-product
+     \begin{align*}
+	 \langle \bm{x}, \bm{y} \rangle = \bm{x}^\tr\bm{y} = \sum_{i=1}^n x_i\,y_i
+     \end{align*}
+   * We can define an inner product between functions
+     \begin{align*}
+       \langle f, g \rangle = \int_{x\in\mathcal{I}} f(x)\,g(x)\,\dd x\pause
+     \end{align*}
+   * For lots of vector spaces we don't bother defining inner products 
+     (e.g. we don't often do this matrices)
+   * Inner products allow us to define the notion of similarity
+     \begin{align*}
+	 \langle \bm{x}, \bm{y} \rangle &= \|\bm{x}\| \, \|\bm{x}\| \, \cos(\theta) \\
+	 \langle f(x), g(x) \rangle &= \|f(x)\| \, \|g(x)\|\, \cos(\theta)
+     \end{align*}
+   * $\cos(\theta)$ can be seen as a measure of the correlation between vectors (or functions)
+
+** Coordinates or Basis Vectors
+   * Any set of vectors that span the entire vector space can be
+     considered a set of basis vectors or coordinates
+   * If our bases are linearly independent then we have a set of
+     non-degenerate basis function where each vector is unique
+   * The most convenient set of basis vectors are those where the
+     bases are normalised and orthogonal
+     $\langle\bm{b}_i,\bm{b}_j\rangle=\delta_{ij}$
+   * *Basis Functions*
+     * For a function space we can consider a set of basis functions
+     * A familiar set of functions define on the interval $[0,2\,\pi]$
+       are the Fourier functions 
+       $$ \{1,\, \cos(\theta),\, \sin(\theta),\, \cos(2\,\theta),\,
+       \sin(2\,\theta),\, \cdots\} $$
+     * This basis set is orthogonal as for any two components $\langle
+       b_i(\theta),\,b_j(\theta)\rangle = \delta_{ij}$
+     * There are many orthogonal polynomials that have similar properties
+     * Given an orthogonal set of functions $\{b_i(\bm{x})\}$ we can decompose a function $f(\bm{x})$
+       as a (infinite) vector $\bm{f}$ with components $f_i = \langle f(\bm{x}),b_i(\bm{x})\rangle$
+     * This allows us to represent any function as a point in an infinite-dimensional space
+     
+** Operators
+   * Operators transform elements of a vector space
+   * Consider the transformation or operator $\mathcal{T}: \mathcal{V} \rightarrow \mathcal{V}'$
+   * This says that $\mathcal{T}$ maps some object
+     $\bm{x}\in\mathcal{V}$ to an object $\bm{y}=\mathcal{T}[\bm{x}]$
+     in a new vector space $\mathcal{V}'$
+   * *Linear Operators*
+     * Linear operators satisfy the two conditions
+       1. $\mathcal{T}[a\,\bm{x}] = a\,\mathcal{T}[\bm{x}]$
+       2. $\mathcal{T}[\bm{x} + \bm{y}] = \mathcal{T}[\bm{x}] + \mathcal{T}[\bm{y}]$
+     * Linear operators are really important because we can understand them
+     * For normal vectors the most general linear operation is
+       \begin{align*}
+         \mathcal{T}[\bm{x}] = \mat{M}\,\bm{x}
+       \end{align*}
+       where $\mat{M}$ is a matrix
+     * For functions the most general linear operator is a kernel function
+       \begin{align*}
+          g(\bm{x}) = \mathcal{T}[f(\bm{x})] = \int
+          K(\bm{x},\bm{y})\, f(\bm{y}) \, \dd \bm{y}
+       \end{align*}
+       * Kernels appear in SVMs, SVRs, kernel-PCA, Gaussian Processes
+   * Often we are interested in operators that map vectors in a vector space to new
+     vectors in the same vector space
+     * $\mathcal{T}: \mathcal{V}\rightarrow\mathcal{V}$
+     * The most general linear mapping for normal vectors that does this are square matrices
+
+ 
+
+* COMMENT [[file:vectorSpaces.pdf][PDF]]
+* COMMENT [[file:ensembleLearning-subsidiary.org][Previous]] [[file:mappings-subsidiary.org][Next]]
+
+
+* Options                                                  :ARCHIVE:noexport:
+#+BEGIN_OPTIONS
+#+OPTIONS: toc:nil
+#+LATEX_HEADER: \usepackage[a4paper,margin=20mm]{geometry}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsfonts}
+#+LATEX_HEADER: \usepackage{stmaryrd}
+#+LATEX_HEADER: \usepackage{bm}
+#+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usemintedstyle{emacs}
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage[scaled]{beraserif}
+#+LaTeX_HEADER: \usepackage[scaled]{berasans}
+#+LaTeX_HEADER: \usepackage[scaled]{beramono}
+#+LATEX_HEADER: \newcommand{\tr}{\textsf{T}}
+#+LATEX_HEADER: \newcommand{\grad}{\bm{\nabla}}
+#+LATEX_HEADER: \newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+#+LATEX_HEADER: \newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+#+LATEX_HEADER: \newcommand{\logg}[1]{\log\!\left( #1 \right)}
+#+LATEX_HEADER: \newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+#+LATEX_HEADER: \newcommand{\e}[1]{{\rm e}^{#1}}
+#+LATEX_HEADER: \newcommand{\dd}{\mathrm{d}}
+#+LATEX_HEADER: \DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+#+LATEX_HEADER: \newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+#+LATEX_HEADER: \newcounter{eqCounter}
+#+LATEX_HEADER: \setcounter{eqCounter}{0}
+#+LATEX_HEADER: \newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+#+LATEX_HEADER: \newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+#+LATEX_HEADER: \newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+#+LATEX_HEADER: \newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+#+END_OPTIONS
+

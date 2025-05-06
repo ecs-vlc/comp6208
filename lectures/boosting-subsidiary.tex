@@ -1,0 +1,116 @@
+% Created 2024-01-19 Fri 14:05
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{minted}
+\usemintedstyle{emacs}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beraserif}
+\usepackage[scaled]{berasans}
+\usepackage[scaled]{beramono}
+\newcommand{\tr}{\textsf{T}}
+\newcommand{\grad}{\bm{\nabla}}
+\newcommand{\av}[2][]{\mathbb{E}_{#1\!}\left[ #2 \right]}
+\newcommand{\Prob}[2][]{\mathbb{P}_{#1\!}\left[ #2 \right]}
+\newcommand{\logg}[1]{\log\!\left( #1 \right)}
+\newcommand{\pred}[1]{\left\llbracket { \small #1} \right\rrbracket}
+\newcommand{\e}[1]{{\rm e}^{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathAlphabet{\mat}{OT1}{cmss}{bx}{n}
+\newcommand{\normal}[2]{\mathcal{N}\!\left(#1 \big| #2 \right)}
+\newcounter{eqCounter}
+\setcounter{eqCounter}{0}
+\newcommand{\explanation}{\setcounter{eqCounter}{0}\renewcommand{\labelenumi}{(\arabic{enumi})}}
+\newcommand{\eq}[1][=]{\stepcounter{eqCounter}\stackrel{\text{\tiny(\arabic{eqCounter})}}{#1}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\Dist}[2][Binom]{\mathrm{#1}\left( \strut {#2} \right)}
+\author{Adam Prügel-Bennett}
+\date{\today}
+\title{Advanced Machine Learning Subsidary Notes\\\medskip
+\large Lecture 6: Boosting}
+\hypersetup{
+ pdfauthor={Adam Prügel-Bennett},
+ pdftitle={Advanced Machine Learning Subsidary Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Keywords}
+\label{sec:org407e605}
+\begin{itemize}
+\item Boosting, AdaBoost, Gradient Boosting
+\end{itemize}
+
+\section{Main Points}
+\label{sec:orgb9508db}
+
+
+\subsubsection{Boosting}
+\label{sec:orga5f2f35}
+\begin{itemize}
+\item Boosting constructs a \emph{strong learner} as a weighted sum of \emph{weak learners}
+\item Adaboost
+\begin{itemize}
+\item Used for binary decisions
+\item Start with a set of weak learners, \(\mathcal{W}\)
+\item Each weak learner \(h_i(\bm{x})\) outputs \(\pm1\)
+\item Greedily build the strong learner by adding \(\alpha_t\,
+        h_t(\bm{x})\) at iteration \(t\)
+\item Uses an exponential "error" to choose the weak learner and \(\alpha_t\)
+\item Algorithm does the following
+\begin{itemize}
+\item Define a weight, \(w_t^\mu\), for each training example
+\((\bm{x}^\mu,y^\mu)\)
+\begin{itemize}
+\item initially these are set to 1
+\item Large weight implies the training example is poorly predicted
+\end{itemize}
+\item Choose the weak learner, \(h_t\) that fails only where prediction is good
+\begin{itemize}
+\item it decides this by summing the weights of training
+examples where the weak learner makes an error
+\item it choose the weak learner with the smallest sum
+\end{itemize}
+\item Choose the parameter \(\alpha_t\) to minimises the error
+\end{itemize}
+\item Need to understand derivation and resulting algorithm (this is
+complicated)
+\end{itemize}
+\item Gradient Boosting
+\begin{itemize}
+\item Used on regression problems
+\item Iterative algorithm where we learn a new weak learner that
+minimises the residual errors
+\item Uses very small decision trees for regression
+\end{itemize}
+\item Performance of Boosting
+\begin{itemize}
+\item Can over-fit (use early stopping)
+\item Only works for very simple weak-learners (strong learners will
+over-fit)
+\item Can give state-of-the-art performance
+\end{itemize}
+\end{itemize}
+\end{document}
