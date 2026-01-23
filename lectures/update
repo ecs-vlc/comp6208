@@ -2,7 +2,7 @@
 
 files=`grep "\\lecture{" lectures.tex | grep -v % | sed 's/\\\lecture{//g' | sed 's/}//g'`
 
-dir="/home/apb/teaching/courses/comp6208/github/site/lecture_pdf/"
+dir="/Users/apb1/Documents/teaching/courses/comp6208/github/site/lecture_pdf/"
 
 for f in $files
 do
@@ -10,13 +10,13 @@ do
         continue
     fi
     echo "Processing $f"
-    if echo $f | /usr/bin/pdflatex -shell-escape lectures; then
+    if echo $f | /Library/TeX/texbin/pdflatex -shell-escape lectures; then
 	echo "OK"
     else
 	echo "Error"
 	exit 1;
     fi
-    echo $f | /usr/bin/pdflatex lectures &> /dev/null
+    echo $f | /Library/TeX/texbin/pdflatex lectures &> /dev/null
     ppower4 lectures.pdf $f.pdf
     outf=${dir}/${f}_prn.pdf
     mv lectures.pdf $outf
@@ -33,4 +33,4 @@ echo $cmd
 $cmd
 cp pdf/lectures_8.pdf ${dir}
 #lecturehtml
-lecturehtml
+python create_lecture_html.py

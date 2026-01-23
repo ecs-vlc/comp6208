@@ -31,7 +31,7 @@ def newer(file1 , file2):
         return True
 
 if newer(tex, pdf) or newer("macros_gen.tex", pdf):
-    if os.system(f"echo {base} | /usr/bin/pdflatex -shell-escape lectures")!=0:
+    if os.system(f"echo {base} | /Library/TeX/texbin/pdflatex -shell-escape lectures")!=0:
         print("Latex failed")
         exit(1)
     os.system(f"ppower4 lectures.pdf {pdf}")

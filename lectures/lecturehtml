@@ -39,13 +39,13 @@ write_video () {
 </HTML>
 EOF
     echo "Updating $vf"
-    cp $vf /home/apb/teaching/courses/comp6208/github/site
+    cp $vf /Users/apb1/Documents/teaching/courses/comp6208/github/site
     tf="videos/${f}-time"
     date > ${tf}
 }
 
 subsidiary() {
-    destination=/home/apb/teaching/courses/comp6208/github/site/notes_pdf/$1-subsidiary.pdf
+    destination=/Users/apb1/Documents/teaching/courses/comp6208/github/site/notes_pdf/$1-subsidiary.pdf
     if [ -f $1-subsidiary.pdf ]; then
 	if [ $1-subsidiary.pdf -nt $destination ]
 	then
@@ -116,7 +116,7 @@ cat >> $of <<EOF
 
 </HTML>
 EOF
-cp lectures.html /home/apb/teaching/courses/comp6208/github/site
-git add /home/apb/teaching/courses/comp6208/github/site
+cp lectures.html /Users/apb1/Documents/teaching/courses/comp6208/github/site
+git add /Users/apb1/Documents/teaching/courses/comp6208/github/site
 git commit -m "update lectures"
 git push
