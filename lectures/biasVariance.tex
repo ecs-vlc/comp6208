@@ -121,7 +121,7 @@
     (we can estimate this if we have some labelled examples
     $(\bm{x}_i,y_i)$ which we have not trained on)\pause
   \item We want to minimise $L_G(\bm{\theta}_{\mathcal{D}})$ but in practice we are
-    minimising $L_T(\mathcal{D})$, \textit{what could possibly go wrong?}\pause
+    minimising $L_T(\mathcal{D})$\pause, \textit{what could possibly go wrong?}\pauseb
   \end{itemize}
 \end{PauseHighLight}
 
@@ -352,6 +352,8 @@ Consider the expected generalisation for data sets of size $|\mathcal{D}|=m$
       \av[\mathcal{D}]{ \left(\hat{f}(\bm{x}\vert \bm{\theta}_{\mathcal{D}}) -
       \hat{f}_m(\bm{x})\right)^2 }\pause 
     \end{align*}
+  \item Warning some of you will see a similar, but subtly different
+    calculation elsewhere\pauseb---here $\bar{L}_G = B + V$\pauseb
   \end{itemize}
 \end{PauseHighLight}
 
