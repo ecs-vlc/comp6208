@@ -99,7 +99,7 @@ def add_video(lecture):
 for lecture in lectures:
     tex = f"{lecture}.tex"
     lesson, keywords = getKeywords(tex)
-    html.write(f"<div id =\"{lesson}\">\n")
+    html.write(f"<div id =\"{lecture}\">\n")
     html.write(f"<li><b>{lesson}</b>: {keywords}\n")
     html.write(f"<ul> <li> <a href=\"lecture_pdf/{lecture}.pdf\">Lecture PDF</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn.pdf\">Printable PDF</a>,\n")

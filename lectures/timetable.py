@@ -73,7 +73,7 @@ def generate_schedule(course, weeks, holidays, bank_holidays):
 def generate_html(course_name, slots, schedule):
     html = []
 
-    html.append(f"<h2>{course_name}</h2>")
+    #html.append(f"<h2>{course_name}</h2>")
     html.append("<table class='timetable'>")
 
     # Header
@@ -102,7 +102,7 @@ def generate_html(course_name, slots, schedule):
     return "\n".join(html)
 
 
-def generate_all_timetables(yaml_file, output_html="timetables.html"):
+def generate_all_timetables(yaml_file, output_html="timetables.html", standalone=False):
     data = load_yaml(yaml_file)
 
     calendar = data["calendar"]
@@ -120,7 +120,7 @@ def generate_all_timetables(yaml_file, output_html="timetables.html"):
     weeks = generate_weeks(term_start, num_weeks)
 
     html = []
-    if False:
+    if standalone:
         html.append("<html>")
         html.append("<head>")
         html.append("<link rel='stylesheet' href='style.css'>")
@@ -131,7 +131,7 @@ def generate_all_timetables(yaml_file, output_html="timetables.html"):
         schedule = generate_schedule(course, weeks, holidays, bank_holidays)
         html.append(generate_html(course["name"], course["slots"], schedule))
 
-    if False:
+    if standalone:
         html.append("</body></html>")
 
     with open(output_html, "w") as f:
@@ -141,3 +141,4 @@ def generate_all_timetables(yaml_file, output_html="timetables.html"):
 
 if __name__ == '__main__':
     generate_all_timetables("courses.yaml", "lecture_timetable.html")
+    generate_all_timetables("courses.yaml", "../site/lecture_timetable.html", True)

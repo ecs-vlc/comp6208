@@ -13,34 +13,35 @@ calendar:
 courses:
   - name: "COMP6208: Advanced Machine Learning"
     lectures:
-      - <a href="lectures.html#courseOutline">courseOutline</a>,  <a href="lectures.html#biasVariance">biasVariance</a>
-      - <a href="lectures.html#overfitting">overfitting</a>
-      - <a href="lectures.html#symmetry">symmetry</a>
-      - <a href="lectures.html#ensembleLearning">ensembleLearning</a>
-      - <a href="lectures.html#boosting">boosting</a>
-      - <a href="lectures.html#vectorSpaces">vectorSpaces</a>
-      - <a href="lectures.html#innerProduct">innerProduct</a>
-      - <a href="lectures.html#mappings">mappings</a>
-      - <a href="lectures.html#eigensystems">eigensystems</a>
-      - <a href="lectures.html#pca">pca</a>
-      - <a href="lectures.html#svd">svd</a>
-      - <a href="lectures.html#calculus">calculus</a>
-      - <a href="lectures.html#optimisation">optimisation</a>
-      - <a href="lectures.html#sgd">sgd</a>
-      - <a href="lectures.html#constrainedOpt">constrainedOpt</a>
-      - <a href="lectures.html#convexity">convexity</a>
-      - <a href="lectures.html#svm">svm</a>
-      - <a href="lectures.html#kernelTrick">kernelTrick</a>
-      - <a href="lectures.html#wasserstein">wasserstein</a>
-      - <a href="lectures.html#probability">probability</a>
-      - <a href="lectures.html#bayes">bayes</a>
-      - <a href="lectures.html#integration">integration</a>
-      - <a href="lectures.html#gaussianProcesses">gaussianProcesses</a>
-      - <a href="lectures.html#ProbabilisticInference">ProbabilisticInference</a>
-      - <a href="lectures.html#graphicalModels">graphicalModels</a>
-      - <a href="lectures.html#mcmc">mcmc</a>
-      - <a href="lectures.html#entropy">entropy</a>
-      - <a href="lectures.html#information">information</a>
+      - <a href="lectures.html#courseOutline">Course Outline</a>
+      - <a href="lectures.html#biasVariance">When Machine Learning Works</a>
+      - <a href="lectures.html#overfitting">Over-Fitting</a>
+      - <a href="lectures.html#symmetry">Symmetry</a>
+      - <a href="lectures.html#ensembleLearning">Ensemble Methods</a>
+      - <a href="lectures.html#boosting">Boosting</a>
+      - <a href="lectures.html#vectorSpaces">Vector Spaces</a>
+      - <a href="lectures.html#innerProduct">Inner Product Spaces</a>
+      - <a href="lectures.html#mappings">Understand Mappings</a>
+      - <a href="lectures.html#eigensystems">Eigensystems</a>
+      - <a href="lectures.html#pca">Principal Component Analysis (PCA)</a>
+      - <a href="lectures.html#svd">Singular Value Decomposition (SVD)</a>
+      - <a href="lectures.html#calculus">Differential Calculus</a>
+      - <a href="lectures.html#optimisation">Optimisation</a>
+      - <a href="lectures.html#sgd">Stochastic Gradient Descent</a>
+      - <a href="lectures.html#constrainedOpt">Constrained Optimisation</a>
+      - <a href="lectures.html#convexity">Convexity</a>
+      - <a href="lectures.html#svm">Support Vector Machines</a>
+      - <a href="lectures.html#kernelTrick">Kernel Trick</a>
+      - <a href="lectures.html#wasserstein">Wasserstein GANs</a>
+      - <a href="lectures.html#probability">Probability</a>
+      - <a href="lectures.html#bayes">Bayesian Inference</a>
+      - <a href="lectures.html#integration">Integral Calculus</a>
+      - <a href="lectures.html#gaussianProcesses">Gaussian Processes</a>
+      - <a href="lectures.html#ProbabilisticInference">Probabilistic Inference</a>
+      - <a href="lectures.html#graphicalModels">Graphical Models</a>
+      - <a href="lectures.html#mcmc">MCMC</a>
+      - <a href="lectures.html#entropy">Entropy</a>
+      - <a href="lectures.html#information">Information Theory</a>
       - Revision Lecture
 
     slots:
