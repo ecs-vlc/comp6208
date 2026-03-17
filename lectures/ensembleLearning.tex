@@ -292,24 +292,51 @@
 \begin{slide}
 \section{Variance of Positive Correlated Variables}
 
-\begin{PauseHighLight}
+\begin{PauseHighLight}\small
   \begin{itemize}
   \item If we calculate the variance of the mean of positively correlated
     variables with correlation $\rho$ we find
     \begin{align*}
-      \frac{1}{n^2} \, \av{ \left(\sum_{i=1}^n X_i -\mu\right)^2}
-      &= \rho\,\sigma^2 + \frac{1-\rho}{n} \sigma^2
-    \end{align*}
+      \frac{1}{n^2} \, \av{ \left(\sum_{i=1}^n X_i -\mu\right)^2}\pause
+       &=\frac{1}{n^2} \, \av{ \sum_{i=1}^n (X_i -\mu)^2
+        + \sum_{i=1}^n\sum_{j=1\atop j\neq i}^n
+         (X_i-\mu)\,(X_j-\mu)}\pause\\
+       &=\frac{1}{n^2} \,\sum_{i=1}^n  \av{ (X_i -\mu)^2}
+        + \sum_{i=1}^n\sum_{j=1\atop j\neq i}^n
+          \av{ (X_i-\mu)\,(X_j-\mu)}\pause\\
+      &= \frac{1}{n^2} \left( n\, \sigma^2 + n\,(n-1)\, \rho\,
+        \sigma^2 \right)\pause 
+      = \rho\,\sigma^2 + \frac{1-\rho}{n} \sigma^2\pauseb
+    \end{align*}\pauselevel{=3}
   ($\rho = \av{(X_i-\mu)\,(X_j-\mu)}/\sigma^2$)\pause
+  \end{itemize}
+\end{PauseHighLight}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+\section[-1]{Variance for Non-Independent Variables}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item Thus,
+    \begin{align*}
+      \av{ (\hat{\mu}_n-\mu)^2 } =  \rho\,\sigma^2 + \frac{1-\rho}{n} \sigma^2
+    \end{align*}
+  \item If the variables $X_i$ are independent ($\rho=0$) we get the
+    same result we had before ($\sigma^2/n$)\pause
+  \item If $X_i$ are all identical ($\rho=1$) we find the expected
+    error in the mean is $\sigma^2$\pause{} i.e. no benefit of averaging\pause
   \item As $n\rightarrow\infty$ the second term vanishes, but we are left
     with the first term\pause
-  \item If we want to do well we need our learning machines to be
-    unbiased and decorrelated\pause
+  \item If we want to reduce our model's variance we need our
+    learning machines to be unbiased and decorrelated\pause
   \end{itemize}
 \end{PauseHighLight}
 
-
 \end{slide}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%xt Slide %%%%%%%%%%%%%%%%%%%%%%%

@@ -164,8 +164,8 @@
       Moving} distance\pause
   \item
     \begin{rightImage}{divergentKL}
-    This is a true distance, but more importantly for us it
-    measure distance in a very natural way so that distributions that
+    This is a true distance, but more importantly, it
+    measures distance in a very natural way so that distributions that
     are close has a small Wasserstein distance\pause
     \end{rightImage}
   \item Although this seems contrived if our probability distribution
@@ -514,9 +514,9 @@
   \item We note for a Lipschitz-1 function and any unit vector $\bm{u}$
     \begin{align*}
       \bm{u}^\tr\grad \alpha(\bm{x}) = \lim_{\epsilon \rightarrow 0}
-      \frac{\alpha(\bm{x})-\alpha(\bm{x}+\epsilon \,
-      \bm{u})}{\epsilon} \pause
-      \leq \frac{\epsilon}{\epsilon} = 1 \pauseb
+      \frac{\alpha(\bm{x}+\epsilon \,\bm{u})-\alpha(\bm{x})}{\epsilon}
+      \pause
+      \leq  \frac{\epsilon\len{\bm{u}}}{\epsilon} \pauseb = \frac{\epsilon}{\epsilon} = 1 \pauseb
     \end{align*}
   \item That is, at every point the gradient in all directions must be
     less than 1\pause{} (since the gradient defines the direction of greatest

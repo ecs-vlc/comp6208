@@ -57,7 +57,7 @@
 \begin{PauseHighLight}
   \begin{itemize}
   \item Given $m$ observations $\{(\bm{x}_k, y_k)| k=1,\ldots,m\}$ and
-    $p$ unknown $\bm{w}=(w_1,w_2, \ldots w_p)$ such that
+    $p$ unknown $\bm{w}=(w_1,w_2, \ldots w_p)^\tr$ such that
     $\bm{x}_k^\tr \bm{w} = y_k$ then to find $\bm{w}$\pause
 \item Define the \textit{design matrix} as the matrix of feature vectors
   \begin{displaymath}
@@ -134,12 +134,12 @@
 \begin{slide}
 \section[-2]{Finding a Minimum}
 
-\begin{PauseHighLight}
+\pb \pause
   \begin{itemize}
   \item The minima of a one dimensional function, $f(x)$, are given by
-    $f'(x)=0$
+    $f'(x)=0$\pauseh
     \begin{center}
-      \includegraphics[width=0.5\linewidth]{gradient}\pause
+      \multipdf[width=0.5\linewidth]{gradient}\pause
     \end{center}
   \item The minima of an $n$-dimensions function $f(\bm{x})$ are
     given by the set of equations
@@ -148,7 +148,6 @@
       \quad \forall i=1,\ldots n\pause
     \end{align*}
   \end{itemize}
-\end{PauseHighLight}
 
 \end{slide}
 
@@ -185,7 +184,7 @@
 %%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{slide}
-\section[-2]{Least Squares Solution}
+\section{Least Squares Solution}
 
 \begin{PauseHighLight}
 
@@ -193,7 +192,7 @@
 \item The least squared solution is give by
   \begin{align*}
     \grad E(\bm{w}|\mathcal{D}) &= \grad \|\bm{\epsilon}\|^2 \pause
-    = \grad \| \mat{X} \bm{w} - \bm{y}\|^2 \pause \\
+                                  = \grad \| \mat{X} \bm{w} - \bm{y}\|^2 \pause \\
     &= \grad \left(\bm{w}^\tr
       \mat{X}^\tr\mat{X} \, \bm{w} -  2 \bm{w}^\tr\mat{X}^\tr \bm{y} +
       \bm{y}^\tr  \bm{y}\right)\pause\\
@@ -207,11 +206,6 @@
   \end{displaymath}
 \item $\mat{X}^{+} = \left(\mat{X}^\tr\mat{X}\right)^{-1} \mat{X}^\tr$ is
   known as the pseudo inverse\pause
-\item For non-square matrices Matlab uses the pseudo inverse so in
-  Matlab we can write
-  \begin{matlab}
-    w = X\y
-  \end{matlab}\pause
 \end{itemize}
 
 \end{PauseHighLight}
@@ -232,7 +226,7 @@
                                        \bm{w} - \bm{y})\pauseb\\
       &=\bm{w}^\tr
       \mat{X}^\tr\mat{X} \, \bm{w} -  2 \bm{w}^\tr\mat{X}^\tr \bm{y} +
-      \bm{y}^\tr  \bm{y}\pauseb
+      \bm{y}^\tr  \bm{y}\pauseb\pauselevel{=4}
     \end{align*}
   \item Where we have used $\bm{w}^\tr\mat{X}^\tr \bm{y} =
     \bm{y}^\tr\mat{X} \bm{w}$\pause{}, $\sum\limits_{i,j} w_i X_{ji} y_j
@@ -240,8 +234,8 @@
   \item Also $\grad \bm{w}^\tr \mat{M}\, \bm{w} = \mat{M}\,\bm{w} + \mat{M}^\tr\, \bm{w}$\pause
   \item If $\mat{M}=\mat{M}^\tr$ (i.e.{} $\mat{M}$ is symmetric) then
     $\grad \bm{w}^\tr \mat{M}\, \bm{w} = 2\,\mat{M}\,\bm{w}$\pause
-  \item $(\mat{X}^\tr\mat{X})^\tr = \mat{X}^\tr\mat{X}$ so that
-    $\mat{X}^\tr\mat{X}$ is symmetric\pause
+  \item As $(\mat{A}\mat{B})^\tr = \mat{B}^\tr \mat{A}^\tr$ then $(\mat{X}^\tr\mat{X})^\tr = \mat{X}^\tr\mat{X}^{\tr\tr}\pause=\mat{X}^\tr\mat{X}$ and
+    $\mat{X}^\tr\mat{X}$ is symmetric\pauseb
   \end{itemize}
 \end{PauseHighLight}
 

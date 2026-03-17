@@ -104,10 +104,12 @@ Can't spot low dimensional data by looking at numbers\pause
 \begin{PauseHighLight}
   \begin{itemize}
   \item Look for the vector $\bm{v}$ with $\|\bm{v}\|^2=1$ to maximise
+    \begin{rightImage}{maxVariation}
     \begin{align*}
       \sigma^2 = \frac{1}{m-1} \sum_{i=1}^m \left( \bm{v}^\tr
       (\bm{x}_i-\bm{\mu}) \right)^2\pause
     \end{align*}
+    \end{rightImage}
   \item This is a constrained optimisation problem\pause
   \item Solve by maximising Lagrangian
     \begin{align*}
@@ -424,7 +426,7 @@ defines a surface\pause
   matrices (as opposed to rank deficient)\pause
 \item Full rank matrices are invertible, rank deficient matrices are
   singular and non-invertible\pause
-\item Full rank covariance matrices have positive eigenvalues only and are
+\item Full rank covariance matrices that have positive eigenvalues only and are
   said to be \emph{positive definite}\pause
 \item We would expect that when $m>p$ the covariance matrix will be
   positive definite\pause{} unless there are some symmetries that linearly constrain the

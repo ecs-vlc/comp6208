@@ -67,7 +67,8 @@
       \begin{itemize}
       \item $0\leq \Prob{\mathcal{E}} \leq 1$\pause
       \item $\Prob{\mathcal{E}} + \Prob{\neg\mathcal{E}} = 1$ where
-        $\neg\mathcal{E} = \Omega \setminus \mathcal{E}$\pauseh
+        $\neg\mathcal{E} = \Omega \setminus \mathcal{E}$
+        \pauselevel{highlight =2 :3}\pause
       \end{itemize}
     \end{minipage}\hfill
     \begin{minipage}{0.3\linewidth}\pauselevel{=1}
@@ -159,7 +160,7 @@
 
 \begin{slide}
 \section[-2]{Continuous Spaces}
-
+\newcommand{\vol}[1]{\mathop{\mathrm{Vol}}\left( #1 \right)}
 \begin{PauseHighLight}
   \begin{itemize}
   \item If the space of elementary events is continuous (e.g. for darts
@@ -172,13 +173,13 @@
     \begin{align*}
       f_{\bm{X}}(\bm{x}) = \lim_{\epsilon\rightarrow 0}
       \frac{\Prob{\bm{X}\in\mathcal{B}(\bm{x},
-      \epsilon)}}{|\mathcal{B}(\bm{x}, \epsilon)|}
+      \epsilon)}}{\vol{\mathcal{B}(\bm{x}, \epsilon)}} \hspace{2cm} \raisebox{-0.5cm}{\includegraphics[width=2cm]{infinessimal_ball}}
     \end{align*}
     where $\mathcal{B}(\bm{x}, \epsilon)$ is a ball of radius
     $\epsilon$ around the point $\bm{x}$ and
-    $|\mathcal{B}(\bm{x}, \epsilon)|$ is the volume of the ball\pause
+    $\vol{\mathcal{B}(\bm{x}, \epsilon)}$ is the volume of the ball\pause
   \item If we make a change of variable the volume
-    $|\mathcal{B}(\bm{x}, \epsilon)|$ might change so
+    $\vol{\mathcal{B}(\bm{x}, \epsilon)}$ might change so
     $f_{\bm{X}}(\bm{x})$ will change\pause
   \end{itemize}
 \end{PauseHighLight}
@@ -209,7 +210,7 @@
       y}{\dd x} \right| = f_{Y}(g(x)) \, | g'(x) |
       \pause
     \end{align*}
-  \item The probability density measured in units of probability per
+  \item A probability density measured in units of probability per
     cm is different to that measured in units of probability per
     inch\pause 
   \end{itemize}

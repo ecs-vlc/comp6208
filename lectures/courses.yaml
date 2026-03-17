@@ -1,0 +1,52 @@
+calendar:
+  term_start: 2026-01-26
+  weeks: 16
+
+  holidays:
+    - start: 2026-03-23
+      end: 2026-04-17
+
+  bank_holidays:
+    - 2026-05-04
+
+
+courses:
+  - name: "COMP6208: Advanced Machine Learning"
+    lectures:
+      - <a href="lectures.html#courseOutline">courseOutline</a>,  <a href="lectures.html#biasVariance">biasVariance</a>
+      - <a href="lectures.html#overfitting">overfitting</a>
+      - <a href="lectures.html#symmetry">symmetry</a>
+      - <a href="lectures.html#ensembleLearning">ensembleLearning</a>
+      - <a href="lectures.html#boosting">boosting</a>
+      - <a href="lectures.html#vectorSpaces">vectorSpaces</a>
+      - <a href="lectures.html#innerProduct">innerProduct</a>
+      - <a href="lectures.html#mappings">mappings</a>
+      - <a href="lectures.html#eigensystems">eigensystems</a>
+      - <a href="lectures.html#pca">pca</a>
+      - <a href="lectures.html#svd">svd</a>
+      - <a href="lectures.html#calculus">calculus</a>
+      - <a href="lectures.html#optimisation">optimisation</a>
+      - <a href="lectures.html#sgd">sgd</a>
+      - <a href="lectures.html#constrainedOpt">constrainedOpt</a>
+      - <a href="lectures.html#convexity">convexity</a>
+      - <a href="lectures.html#svm">svm</a>
+      - <a href="lectures.html#kernelTrick">kernelTrick</a>
+      - <a href="lectures.html#wasserstein">wasserstein</a>
+      - <a href="lectures.html#probability">probability</a>
+      - <a href="lectures.html#bayes">bayes</a>
+      - <a href="lectures.html#integration">integration</a>
+      - <a href="lectures.html#gaussianProcesses">gaussianProcesses</a>
+      - <a href="lectures.html#ProbabilisticInference">ProbabilisticInference</a>
+      - <a href="lectures.html#graphicalModels">graphicalModels</a>
+      - <a href="lectures.html#mcmc">mcmc</a>
+      - <a href="lectures.html#entropy">entropy</a>
+      - <a href="lectures.html#information">information</a>
+      - Revision Lecture
+
+    slots:
+      - day: Mon
+        time: "17:00"
+      - day: Wed
+        time: "11:00"
+      - day: Thu
+        time: "13:00"

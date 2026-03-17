@@ -336,6 +336,8 @@
     $\hat{\bm{w}} = (\hat{w}_1,\,\hat{w}_2,\,\ldots,\,\hat{w}_p)$ and
     bias $\hat{b}$ and $m$ constraints\pause
   \item This is a classic but fiddly optimisation problems\pause
+  \item It is a \emph{strongly convex} optimisation problem so will
+    have a unique minimum\pause
   \item It can be solved in $O(p^3)$ time (it involves inverting
     matrices)\pause{} (phew it is not NP-complete!)\pauseb
   \item We will see that there is an equivalent dual problem which
@@ -423,15 +425,18 @@
       - \sum_{k=1}^m \alpha_k \left(\bigstrut
       y_k\,\left(\strut \inner{\bm{w}}{\bm{\phi}(\bm{x}_k) }-  b\right) - 1 \right)\pause
     \end{align*}
-  \item $\gradw \mathcal{L}=\bm{w} -\sum_{k=1}^m \alpha_k\,y_k\,\bm{\phi}(\bm{x}_k)= 0$ implies that $\bm{w}^* = \sum_{k=1}^m
-  \alpha_k\, y_k\, \bm{\phi}(\bm{x}_k)$\pause
-  \item $\pd{\mathcal{L}}{b}=\sum_{k=1}^m \alpha_k\, y_k=0$ implies $\sum_{k=1}^m \alpha_k\, y_k = 0$
-    \pause
+  \item $\gradw \mathcal{L}=\pauselevel{build =2, highlight =2} \pause\bm{w} -\sum\limits_{k=1}^m
+    \alpha_k\,y_k\,\bm{\phi}(\bm{x}_k)\pauselevel{build =2, highlight =2 :3}\pause= 0\pauseb$ $\implies$ $\bm{w}^* = \sum\limits_{k=1}^m
+  \alpha_k\, y_k\, \bm{\phi}(\bm{x}_k)$\pauseb
+  \item $\pd{\mathcal{L}}{b}=\pauselevel{build =6, highlight =6}\pause
+    \sum_{k=1}^m \alpha_k\,
+    y_k\pauselevel{build =6, highlight  =6 :7}\pause=0$\pauseb
   \item Substituting back into the Lagrangian
    \begin{align*}
-      \max_{\bm{\alpha}\geq\bm{0}} \,\, \sum_{k=1}^m \alpha_k 
+     \max_{\bm{\alpha}\geq\bm{0}}\mathcal{L}(\bm{w}^*, b^*, \bm{\alpha})
+     = \max_{\bm{\alpha}\geq\bm{0}} \,\, \sum_{k=1}^m \alpha_k 
       - \frac{1}{2} \sum_{k,l=1}^m \alpha_k\,\alpha_l
-      \,y_k\,y_l\, \inner{\bm{\phi}(\bm{x}_k)}{\bm{\phi}(\bm{x}_l)} \pause
+      \,y_k\,y_l\, \inner{\bm{\phi}(\bm{x}_k)}{\bm{\phi}(\bm{x}_l)} \pauseb
     \end{align*}    
   \end{itemize}
 \end{PauseHighLight}
@@ -626,7 +631,7 @@
 %%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{slide}
-\section{Choosing the Right Kernel Function}
+\section[-1]{Choosing the Right Kernel Function}
 
 \begin{PauseHighLight}
   \begin{itemize}
@@ -639,7 +644,7 @@
     basis function kernel
     \begin{align*}
        K(\bm{x},\,\bm{y}) =
-      \mathrm{e}^{-\gamma\,\|\bm{x}-\bm{y}\|^2}\pause
+      \mathrm{e}^{-\gamma\,\|\bm{x}-\bm{y}\|^2}\pause \hspace{3cm} \raisebox{-1cm}{\includegraphics[height=3cm]{rbf_kernel}}
     \end{align*}
   \item Optimal $\gamma$ values range over $2^{-15}$--$2^3$\pause
   \end{itemize}

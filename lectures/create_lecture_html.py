@@ -80,7 +80,7 @@ def add_video(lecture):
     </video>
 </div>
 
-<div>
+<div id="{lecture}">
 <ul>
      <li> <a href="../lecture_pdf/{lecture}.pdf">Lecture PDF</a>, </li>
      <li> <a href="../lecture_pdf/{lecture}_prn.pdf">Printable PDF</a>, </li>
@@ -99,15 +99,17 @@ def add_video(lecture):
 for lecture in lectures:
     tex = f"{lecture}.tex"
     lesson, keywords = getKeywords(tex)
+    html.write(f"<div id =\"{lesson}\">\n")
     html.write(f"<li><b>{lesson}</b>: {keywords}\n")
     html.write(f"<ul> <li> <a href=\"lecture_pdf/{lecture}.pdf\">Lecture PDF</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn.pdf\">Printable PDF</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn_4.pdf\">(4 per page)</a>,\n")
     html.write(f"  <a href=\"lecture_pdf/{lecture}_prn_8.pdf\">(8 per page)</a>,\n</li>\n</ul>\n")
-    add_file(f"{lecture}-subsidiary.pdf", "Notes", "../lectures")
+    add_file(f"{lecture}-subsidiary.pdf", "Notes", "notes_pdf")
     add_file(f"{lecture}.ipynb", "Jupyter Notebook", "notebook")
     add_video(lecture)
     html.write("</li>\n")
+    html.write("</div>\n")
 
 html.write('''
 </ol>

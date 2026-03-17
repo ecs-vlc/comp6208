@@ -41,8 +41,35 @@
 \toptarget{firstoutline}
 %%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{slide}
-\section[-2]{Singular Valued Decomposition}
+\section{Singular Valued Decomposition}
+
+\begin{PauseHighLight}
+  \begin{itemize}
+  \item One of the most immportant results in linear algebra is that
+    any matrix $\mat{X}$ can be decomposed as
+    \begin{align*}
+      \mat{X} = \mat{U} \mat{S} \mat{V}^\tr\pause
+    \end{align*}
+  \item If $\mat{X}$ is a $m\times n$ matrix then $\mat{U}$ is a
+    $m\times m$ orthogonal matrix and $\mat{V}$ is an $n\times n$
+    orthogonal matrix\pause{} i.e. $\mat{U}\mat{U}^\tr =
+    \mat{U}^\tr\mat{U} = \mat{I}, \; \mat{V}\,\mat{V}^\tr =
+    \mat{V}^\tr\mat{V} = \mat{I}$\pauseb
+  \item And $\mat{S}$ is a $m\times n$ matrix with non-zero diagonal
+    elements $S_{ii} = s_i$ known as the \emph{singular values}\pause
+  \item Where did that come from?\pauseb
+  \end{itemize}
+\end{PauseHighLight}
+
+\end{slide}
+
+
+
+\begin{slide}
+\section[-2]{Eigen Decomposition}
 
 \pb
 \begin{itemize}\squeeze
@@ -158,7 +185,7 @@
     \vspace*{-5mm}
   \begin{align*}
     \mat{X}   &=      \tilde{\mat{U}} \,\mat{S}\, \tilde{\mat{V}}^\tr &
-    \mat{X}^\tr &= \tilde{\mat{V}} \,\mat{S}\, \tilde{\mat{U}}^\tr\pause
+    \mat{X}^\tr &= \tilde{\mat{V}} \,\mat{S}^\tr\, \tilde{\mat{U}}^\tr\pause
   \end{align*}
 \end{itemize}
 \end{PauseHighLight}

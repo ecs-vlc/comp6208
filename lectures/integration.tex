@@ -89,11 +89,13 @@
       I(a,x) =  \int_a^x f(z) \, \mathrm{d}z =  \lim\limits_{\delta z_i\rightarrow 0} \sum_{i=0}^{n-1}
           (z_{i+1} - z_i) \, f(z_i)\pause
     \end{align*}
-  \item Now for small $\delta x$
+  \item Now for small $\delta x$ \hspace{12cm}
+    \makebox(0,0){\includegraphics[width=8cm]{fundamental_law}}
+    \vspace{1cm}
     \begin{align*}
-      I(a,x+\delta x) =  \int_a^{x+\delta x} f(z) \, \mathrm{d}z
+      I(a,x+\delta x) =  \int_a^{x+\delta x} f(z) \, \mathrm{d}z\pause
       =  \lim\limits_{\delta z_i\rightarrow 0} \sum_{i=0}^{n-1}
-      (z_{i+1} - z_i) \, f(z_i) + \delta x \, f(x)
+      (z_{i+1} - z_i) \, f(z_i) + \delta x \, f(x)\pauseb
     \end{align*}
   \item Thus
     \begin{align*}
@@ -130,7 +132,7 @@
         f(x_{n-1})} \pauseb \\
       &= f(x_n) - f(x_0)\pauseb = f(b) -f(a)\pauseb
     \end{align*}}
-  \item We can think of integration as an \emph{anti-derivative} it
+  \item We can think of integration as an \emph{anti-derivative}---it
     undoes differentiation\pauseb
   \end{itemize}
 \end{PauseHighLight}
@@ -226,7 +228,7 @@
 
 \begin{PauseHighLight}\squeeze
   \begin{itemize}
-  \item We saw due to the product and chain rules that we can
+  \item We saw, due to the product and chain rules, that we can
     differentiate almost anything\pause.  Given integration is the
     anti-derivative can we integrate anything?\pauseb
   \item Products and compositions
@@ -425,7 +427,7 @@
     \begin{align*}
       Z(\ell) =  \int_{-\infty}^\infty \e{\ell \, x} \, f_X(x) \, \dd x\pause
     \end{align*}
-  \item Then $M_n = Z^{(n)}(0)$\pause{} (then $n^{th}$ derivative of $Z(\ell)$
+  \item Then $M_n = Z^{(n)}(0)$\pause{} (the $n^{th}$ derivative of $Z(\ell)$
     at $\ell = 0$)\pauseb
     \begin{align*}
       \left. \frac{\dd^n Z(\ell)}{\dd \ell^n} \right|_{\ell = 0} = 

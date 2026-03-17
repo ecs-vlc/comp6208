@@ -5,6 +5,7 @@ from ask import Ask
 import os
 from myengage import myengage
 from time import sleep
+import psutil
 
 
 def extract(str):
@@ -36,6 +37,11 @@ if newer(tex, pdf) or newer("macros_gen.tex", pdf):
         exit(1)
     os.system(f"ppower4 lectures.pdf {pdf}")
 
-os.system(f"evince {pdf} &")
-sleep(1)
+for proc in psutil.process_iter():
+    if proc.name() == "papers":
+        proc.kill()
+
+#os.system(f"evince {pdf} &")
+os.system(f"papers {pdf} 2> /dev/null &")
+sleep(2)
 myengage()    
