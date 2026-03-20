@@ -60,7 +60,7 @@
 %%%%%%%%%%%%%%%%%%%%%%% Next Slide %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{slide}
-\section[-1]{Completing the Square}
+\section[-1.5]{Completing the Square}
 
 \begin{PauseHighLight}
   \begin{itemize}
@@ -85,8 +85,10 @@
       \tfrac{\e{-\frac{1}{2} (\bm{x}^\tr - \bm{a}^\tr\mat{C}) \mat{C}^{-1}
         (\bm{x}-\mat{C} \bm{a}) + \frac{1}{2} \bm{a}^\tr
         \mat{C}\,\bm{a}}}{\sqrt{|\det(2\,\pi\,\mat{C})|}} \, {\scriptstyle \dd \bm{x}}\pauseb \\
-      &= \e{\frac{1}{2} \bm{a}^\tr
-        \mat{C}\,\bm{a}} \pauseb
+      &= \int_{-\infty}^{\infty} \mathcal{N}\left(\bm{x}\mid
+        \mat{C}\,\bm{a}, \mat{C}\right) \,
+        \e{\frac{1}{2} \bm{a}^\tr \mat{C}\,\bm{a}} \dd \bm{x}\pauseb
+        = \e{\frac{1}{2} \bm{a}^\tr \mat{C}\,\bm{a}} \pauseb
     \end{align*}
   \end{itemize}
 \end{PauseHighLight}

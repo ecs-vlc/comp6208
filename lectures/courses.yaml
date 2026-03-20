@@ -1,6 +1,6 @@
 calendar:
   term_start: 2026-01-26
-  weeks: 16
+  weeks: 12
 
   holidays:
     - start: 2026-03-23
@@ -9,45 +9,48 @@ calendar:
   bank_holidays:
     - 2026-05-04
 
+year: 2025-26
 
-courses:
-  - name: "COMP6208: Advanced Machine Learning"
-    lectures:
-      - <a href="lectures.html#courseOutline">Course Outline</a>
-      - <a href="lectures.html#biasVariance">When Machine Learning Works</a>
-      - <a href="lectures.html#overfitting">Over-Fitting</a>
-      - <a href="lectures.html#symmetry">Symmetry</a>
-      - <a href="lectures.html#ensembleLearning">Ensemble Methods</a>
-      - <a href="lectures.html#boosting">Boosting</a>
-      - <a href="lectures.html#vectorSpaces">Vector Spaces</a>
-      - <a href="lectures.html#innerProduct">Inner Product Spaces</a>
-      - <a href="lectures.html#mappings">Understand Mappings</a>
-      - <a href="lectures.html#eigensystems">Eigensystems</a>
-      - <a href="lectures.html#pca">Principal Component Analysis (PCA)</a>
-      - <a href="lectures.html#svd">Singular Value Decomposition (SVD)</a>
-      - <a href="lectures.html#calculus">Differential Calculus</a>
-      - <a href="lectures.html#optimisation">Optimisation</a>
-      - <a href="lectures.html#sgd">Stochastic Gradient Descent</a>
-      - <a href="lectures.html#constrainedOpt">Constrained Optimisation</a>
-      - <a href="lectures.html#convexity">Convexity</a>
-      - <a href="lectures.html#svm">Support Vector Machines</a>
-      - <a href="lectures.html#kernelTrick">Kernel Trick</a>
-      - <a href="lectures.html#wasserstein">Wasserstein GANs</a>
-      - <a href="lectures.html#probability">Probability</a>
-      - <a href="lectures.html#bayes">Bayesian Inference</a>
-      - <a href="lectures.html#integration">Integral Calculus</a>
-      - <a href="lectures.html#gaussianProcesses">Gaussian Processes</a>
-      - <a href="lectures.html#ProbabilisticInference">Probabilistic Inference</a>
-      - <a href="lectures.html#graphicalModels">Graphical Models</a>
-      - <a href="lectures.html#mcmc">MCMC</a>
-      - <a href="lectures.html#entropy">Entropy</a>
-      - <a href="lectures.html#information">Information Theory</a>
-      - Revision Lecture
+name: "COMP6208: Advanced Machine Learning"
 
-    slots:
-      - day: Mon
-        time: "17:00"
-      - day: Wed
-        time: "11:00"
-      - day: Thu
-        time: "13:00"
+lectures:
+  - <a href="lectures.html#courseOutline">Course Outline</a> and <a href="lectures.html#biasVariance">When Machine Learning Works</a>
+  - <a href="lectures.html#overfitting">Over-Fitting</a>
+  - <a href="lectures.html#symmetry">Symmetry</a>
+  - <a href="lectures.html#ensembleLearning">Ensemble Methods</a>
+  - <a href="lectures.html#boosting">Boosting</a>
+  - <a href="lectures.html#vectorSpaces">Vector Spaces</a>
+  - <a href="lectures.html#innerProduct">Inner Product Spaces</a>
+  - <a href="lectures.html#mappings">Understand Mappings</a>
+  - <a href="lectures.html#eigensystems">Eigensystems</a>
+  - <a href="lectures.html#pca">Principal Component Analysis (PCA)</a>
+  - <a href="lectures.html#svd">Singular Value Decomposition (SVD)</a>
+  - <a href="lectures.html#calculus">Differential Calculus</a>
+  - <a href="lectures.html#optimisation">Optimisation</a>
+  - <a href="lectures.html#sgd">Stochastic Gradient Descent</a>
+  - <a href="lectures.html#constrainedOpt">Constrained Optimisation</a>
+  - <a href="lectures.html#convexity">Convexity</a>
+  - <a href="lectures.html#svm">Support Vector Machines</a>
+  - <a href="lectures.html#kernelTrick">Kernel Trick</a>
+  - <a href="lectures.html#wasserstein">Wasserstein GANs</a>
+  - <a href="lectures.html#probability">Probability</a>
+  - <a href="lectures.html#bayes">Bayesian Inference</a>
+  - <a href="lectures.html#integration">Integral Calculus</a>
+  - <a href="lectures.html#gaussianProcesses">Gaussian Processes</a>
+  - <a href="lectures.html#ProbabilisticInference">Probabilistic Inference</a>
+  - <a href="lectures.html#graphicalModels">Graphical Models</a>
+  - <a href="lectures.html#mcmc">MCMC</a>
+  - <a href="lectures.html#entropy">Entropy</a>
+  - <a href="lectures.html#information">Information Theory</a>
+  - Revision Lecture
+
+slots:
+  - day: Mon
+    time: "17:00"
+    location: 07/3023
+  - day: Wed
+    time: "11:00"
+    location: 13/3021
+  - day: Thu
+    time: "13:00"
+    location: 07/3027
